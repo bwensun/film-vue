@@ -66,7 +66,7 @@
                         <div class="item-data">
                           <h2 class="item-title">{{ film.filmName }}</h2>
                           <div class="item-desc font-base">
-                            <p align="left">{{film.introduction}}</p>
+                            <p align="left">{{ film.introduction }}</p>
                           </div>
                           <div class="item-data-other">
                             <ul class="item-data-other-list">
@@ -74,7 +74,9 @@
                                 {{ film.director }}
                               </li>
                               <li class="item-date">
-                                {{ film.screenDate }}&nbsp;{{ film.screenLocation }}
+                                {{ film.screenDate }}&nbsp;{{
+                                  film.screenLocation
+                                }}
                               </li>
                             </ul>
                           </div>
@@ -99,30 +101,32 @@
               <h3>活跃排行</h3>
               <el-divider></el-divider>
               <ul>
-                <li class="font-small">
+                <li
+                  class="font-base activity-rank-li"
+                  v-for="activity in this.userActivityRank"
+                  :key="activity"
+                >
                   <div class="active-rank">
                     <div class="active-ranl-left">
                       <el-avatar
                         shape="square"
                         :size="36"
-                        :src="
-                          'http://image.bowensun.top/avatar%E5%94%90%E6%96%87%E9%A3%9E.jpg'
-                        "
+                        v-bind:src="activity.avatar"
                       ></el-avatar>
                       <div class="active-rank-desc">
-                        <span>kof跑跑宝宝</span>
+                        <span>{{ activity.nickname }}</span>
                         <span style="text-align: left; color: #bcbcbc"
-                          >Lv1</span
+                          >Lv{{ activity.level }}</span
                         >
                       </div>
                     </div>
                     <div class="active-rank-right">
                       <el-image
-                        style="width: 16px; height: 16px"
-                        :src="'http://image.bowensun.top/iconfire.svg'"
+                        style="width: 20px; height: 20px"
+                        :src="'http://image.bowensun.top/iconcoin.svg'"
                         :fit="fit"
                       ></el-image
-                      >24
+                      >&nbsp;&nbsp;{{ activity.activity }}
                     </div>
                   </div>
                 </li>
@@ -187,23 +191,32 @@
 </template>
 
 <script>
-import { getFilmList } from "@/api/index";
+import { getFilmList, getActivityRank } from "@/api/index";
 export default {
   name: "Index",
   data() {
     return {
-      filmList: null
+      filmList: null,
+      userActivityRank: null
     };
   },
   async created() {
     console.log("初始化...");
     this.getContent();
+    this.getActivityRank();
   },
   methods: {
     async getContent() {
       getFilmList(1, 10).then(response => {
         console.log(response.data.records);
         this.filmList = response.data.records;
+      });
+    },
+    async getActivityRank() {
+      getActivityRank(5).then(response => {
+        console.log(response.data);
+        debugger;
+        this.userActivityRank = response.data;
       });
     }
   }
@@ -326,17 +339,20 @@ ul {
     #f0f1f6 42%,
     #e1f0ff 100%
   );
-  width: 65%;
+  width: 75%;
   height: 120px;
 }
 .interval {
-  width: 70%;
+  width: 80%;
   height: 30px;
   background: #f9f9f9;
 }
+.activity-rank-li{
+  padding-bottom: 20px;
+}
 .active-user {
   padding-top: 5px;
-  width: 70%;
+  width: 80%;
   height: 500px;
   background: white;
 }
@@ -350,12 +366,17 @@ ul {
 }
 
 .active-rank-desc {
+  padding-left: 7px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+
 }
 .active-rank-right {
+  color: #7e7b7b;
+  font-weight: 600;
   padding: 10px;
-  width: 28px;
+  width: 40px;
   border-radius: 5px;
   display: flex;
   align-content: center;
