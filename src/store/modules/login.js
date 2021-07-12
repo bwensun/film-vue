@@ -1,4 +1,5 @@
-import { login } from "@/api/test";
+import { login } from "@/api/base";
+import { getContent } from "@/api/index";
 import { getToken, setToken, removeToken } from "@/utils/auth";
 
 export const user = {

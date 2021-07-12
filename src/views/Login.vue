@@ -1,47 +1,37 @@
 <template>
-  <div class="loginDiv">
-    <el-row>
-      <el-col :span="3" offset="10">
-        <div class="grid-content bg-purple-light">
-          <h1>登录</h1>
-        </div>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="6" offset="8">
-        <div>
-          <el-form
-            :model="ruleForm"
-            status-icon
-            :rules="rules"
-            ref="ruleForm"
-            label-width="100px"
-            class="loginForm"
+  <div class="login">
+    <div class="loginDiv">
+      <h2>登录</h2>
+      <el-form
+        :model="ruleForm"
+        status-icon
+        :rules="rules"
+        ref="ruleForm"
+        label-width="100px"
+        class="loginForm"
+      >
+        <el-form-item label="用户名" prop="username">
+          <el-input
+            type="input"
+            v-model="ruleForm.username"
+            autocomplete="off"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input
+            type="password"
+            v-model="ruleForm.password"
+            autocomplete="off"
+          ></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click.native.prevent="handleLogin"
+            >登录</el-button
           >
-            <el-form-item label="用户名" prop="username">
-              <el-input
-                type="input"
-                v-model="ruleForm.username"
-                autocomplete="off"
-              ></el-input>
-            </el-form-item>
-            <el-form-item label="密码" prop="password">
-              <el-input
-                type="password"
-                v-model="ruleForm.password"
-                autocomplete="off"
-              ></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click.native.prevent="handleLogin"
-                >登录</el-button
-              >
-              <el-button @click="resetForm('ruleForm')">重置</el-button>
-            </el-form-item>
-          </el-form>
-        </div>
-      </el-col>
-    </el-row>
+          <el-button @click="resetForm('ruleForm')">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 </template>
 
@@ -97,4 +87,16 @@ export default {
 };
 </script>
 <style>
+.login {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loginDiv {
+  height: 447.5px;
+  width: 336px;
+  border: 1px;
+  border-color: #212121;
+}
 </style>
