@@ -1,13 +1,13 @@
 <template>
   <div class="index">
-    <el-container>
+    <el-container class="header">
       <el-header>
         <el-row type="flex">
-          <el-col :span="16" :offset="3">
+          <el-col :span="10" :offset="3">
             <div class="header-banner">
               <div class="header-banner-left">
                 <div class="header-logo">
-                  <h1>
+                  <h1 style="line-height: 49px">
                     Film
                   </h1>
                 </div>
@@ -31,12 +31,28 @@
               </div>
             </div>
           </el-col>
-          <el-col :span="3" :push="2" class="header-banner-right">
-            <div class="login_register_button">
-              <el-button type="text" class="login_button">登录</el-button>
+          <el-col :span="10" :push="0" class="header-banner-right">
+            <div class="search">
+              <el-input v-model="input" placeholder="搜索" :disabled="true"></el-input>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <el-button type="primary" size="medium" icon="el-icon-search"> 搜索</el-button>
+            </div>
+            <div class="login_register_button" v-show="loginRegisterShow">
+              <el-button type="text" class="login_button" @click="login"
+                >登录</el-button
+              >
               <el-button type="text" class="register_button"
                 >快速注册</el-button
               >
+            </div>
+            <div class="already-login" v-show="alreadyLoginShow">
+              <div>
+                <el-avatar
+                  shape="square"
+                  :size="36"
+                  v-bind:src="user.avatar"
+                ></el-avatar>
+              </div>
             </div>
           </el-col>
         </el-row>
@@ -187,6 +203,61 @@
         </el-row>
       </el-footer>
     </el-container>
+
+    <el-dialog
+      title="登录"
+      :visible.sync="dialogVisible"
+      width="22%"
+      :before-close="handleClose"
+    >
+      <el-form
+        :model="loginForm"
+        :status-icon="true"
+        :rules="rules"
+        ref="loginForm"
+        class="login_form"
+      >
+        <el-form-item prop="username">
+          <el-input
+            type="input"
+            placeholder="用户名/邮箱"
+            v-model="loginForm.username"
+            autocomplete="off"
+          ></el-input>
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input
+            type="password"
+            placeholder="请输入密码"
+            v-model="loginForm.password"
+            autocomplete="off"
+          ></el-input>
+        </el-form-item>
+        <div class="font-extra-small login-tip">
+          <div><a href="www.baidu.com">忘记密码?</a></div>
+          <span>新用户?<a href="www.baidu.com">注册</a></span>
+        </div>
+        <el-form-item>
+          <el-button
+            class="login-submit"
+            type="primary"
+            @keyup.enter.native="handleLogin"
+            @click.native.prevent="handleLogin"
+            >快速登录</el-button
+          >
+        </el-form-item>
+        <div class="other-login font-extra-small">
+          <span>微信登录</span>
+          <a href="http://www.baidu.com">
+            <el-image
+              style="width: 20px; height: 20px"
+              :src="'http://image.bowensun.top/iconwechat.svg'"
+              :fit="fit"
+            ></el-image>
+          </a>
+        </div>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
@@ -195,9 +266,41 @@ import { getFilmList, getActivityRank } from "@/api/index";
 export default {
   name: "Index",
   data() {
+    var checkUsername = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error("用户名不能为空"));
+      }
+      if (value.length < 2 || value.length > 20) {
+        return callback(new Error("用户名长度在2-20字符内"));
+      }
+      callback();
+    };
+    var checkPass = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入密码"));
+      }
+      callback();
+    };
     return {
       filmList: null,
-      userActivityRank: null
+      userActivityRank: null,
+      dialogVisible: false,
+      loginRegisterShow: true,
+      alreadyLoginShow: false,
+      loginForm: {
+        username: "",
+        password: ""
+      },
+      rules: {
+        password: [{ validator: checkPass, trigger: "blur" }],
+        username: [{ validator: checkUsername, trigger: "blur" }]
+      },
+      user: {
+        username: "bwensun",
+        avatar:
+          "http://image.bowensun.top/avatar%E5%AD%99%E5%8D%9A%E6%96%87.webp",
+        nickname: "霸道学长孙博文"
+      }
     };
   },
   async created() {
@@ -215,8 +318,29 @@ export default {
     async getActivityRank() {
       getActivityRank(5).then(response => {
         console.log(response.data);
-        debugger;
         this.userActivityRank = response.data;
+      });
+    },
+    login() {
+      this.dialogVisible = true;
+    },
+    handleLogin() {
+      const that = this;
+      this.$refs.loginForm.validate(valid => {
+        if (valid) {
+          that.$store
+            .dispatch("Login", that.loginForm)
+            .then(() => {
+              that.$router.push({ path: "/" });
+              that.$refs["loginForm"].resetFields();
+              that.dialogVisible = false;
+              that.loginRegisterShow = false;
+              that.alreadyLoginShow = true;
+            })
+            .catch(a => {
+              console.log("error!");
+            });
+        }
       });
     }
   }
@@ -235,7 +359,10 @@ ul {
   margin-left: 20px;
   display: flex;
 }
-
+.header-logo {
+  display: flex;
+  align-content: center;
+}
 .el-header {
   background-color: #f9f9f9;
   color: #333333;
@@ -244,11 +371,14 @@ ul {
   padding: 0;
 }
 .header-banner-right {
-  height: 70px;
-  display: inline-flex;
-}
-.header-banner-right {
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+.search {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .el-menu-item {
   font-size: 18px;
@@ -347,7 +477,7 @@ ul {
   height: 30px;
   background: #f9f9f9;
 }
-.activity-rank-li{
+.activity-rank-li {
   padding-bottom: 20px;
 }
 .active-user {
@@ -370,7 +500,6 @@ ul {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
 }
 .active-rank-right {
   color: #7e7b7b;
@@ -400,6 +529,26 @@ ul {
 }
 .footer-bottom {
   padding-top: 100px;
+}
+.login_form {
+  padding: 0 10px;
+}
+.el-form-item__content {
+  margin-left: 0 !important;
+}
+.login-submit {
+  width: 100%;
+}
+.login-tip {
+  display: flex;
+  padding-bottom: 12px;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.other-login {
+  color: #7e7b7b;
+  display: flex;
+  justify-content: left;
 }
 /* 公用css */
 .b2-color {
