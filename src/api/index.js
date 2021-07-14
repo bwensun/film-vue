@@ -20,3 +20,21 @@ export function getActivityRank(count) {
     method: "get"
   });
 }
+
+//注册
+export function register(userInfo) {
+  return request({
+    url: "/register",
+    method: "post",
+    data: userInfo
+  });
+}
+
+//登录
+export function login(loginDTO) {
+  return request({
+    url: "/login",
+    method: "post",
+    data: loginDTO
+  });
+}

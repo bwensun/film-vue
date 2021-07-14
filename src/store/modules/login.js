@@ -1,5 +1,4 @@
-import { login } from "@/api/base";
-import { getContent } from "@/api/index";
+import { register, login } from "@/api/index";
 import { getToken, setToken, removeToken } from "@/utils/auth";
 
 export const user = {
@@ -8,7 +7,8 @@ export const user = {
     name: "",
     avatar: "",
     roles: [],
-    permissions: []
+    permissions: [],
+    userinfo: {}
   },
   mutations: {
     SET_TOKEN: (state, token) => {
@@ -25,22 +25,25 @@ export const user = {
     },
     SET_PERMISSIONS: (state, permissions) => {
       state.permissions = permissions;
+    },
+    SET_USER: (state, userInfo) => {
+      state.userInfo = userInfo;
     }
   },
 
   actions: {
     // 登录
-    Login({ commit }, userInfo) {
-      const username = userInfo.username.trim();
-      const password = userInfo.password;
-      return new Promise((resolve, reject) => {
-        login(username, password)
-          .then(res => {
-            resolve();
-          })
-          .catch(error => {
-            reject(error);
-          });
+    Login({ commit }, loginDTO) {
+      login(loginDTO).then(response => {
+        console.log("login success! ");
+        //todo: 调用用户详情接口提交mutations来补全用户信息
+      });
+    },
+    // 注册
+    Register({ commit }, userInfo) {
+      register(userInfo).then(response => {
+        console.log("success!");
+        commit("SET_USER", userInfo);
       });
     }
   }
