@@ -334,7 +334,7 @@
                 v-model="registerForm.captcha"
                 autocomplete="off"
               ></el-input>
-              <el-button type="primary">
+              <el-button type="primary" @click="getRegisterCaptcha">
                 获取验证码
               </el-button>
             </div>
@@ -369,7 +369,7 @@
 </template>
 
 <script>
-import { getFilmList, getActivityRank } from "@/api/index";
+import { getFilmList, getActivityRank, getRegisterCaptcha } from "@/api/index";
 export default {
   name: "Index",
   data() {
@@ -469,7 +469,7 @@ export default {
             .then(() => {
               that.$router.push({ path: "/" });
               that.$refs["loginForm"].resetFields();
-              that.openLoginDialog();
+              that.afterLogin();
             })
             .catch(a => {
               console.log("登录出错!");
@@ -490,6 +490,16 @@ export default {
     step2() {
       this.registerStep2Show = false;
       this.registerStep3Show = true;
+    },
+    async getRegisterCaptcha(){
+      console.log(this.registerForm.username);
+      const captchaDTO = {
+        username: this.registerForm.username,
+        to: this.registerForm.email,
+        captchaType: "register"
+      }
+      getRegisterCaptcha(captchaDTO);
+      this.registerStepActive = 2;
     },
     async registerSubmit() {
       const that = this;
@@ -528,9 +538,10 @@ export default {
         ])
       });
     },
-    openLoginDialog() {
-      this.loginDialogVisible = true;
+    afterLogin() {
+      this.loginDialogVisible = false;
       this.registerDialogVisible = false;
+      this.alreadyLoginShow = true;
     }
   }
 };

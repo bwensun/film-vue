@@ -38,3 +38,12 @@ export function login(loginDTO) {
     data: loginDTO
   });
 }
+
+//获取验证码
+export function getRegisterCaptcha(captchaDTO) {
+  return request({
+    url: "/captcha/gen",
+    method: "post",
+    data: captchaDTO
+  });
+}
