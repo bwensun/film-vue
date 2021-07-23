@@ -40,7 +40,7 @@ export function login(loginDTO) {
 }
 
 //获取验证码
-export function getRegisterCaptcha(captchaDTO) {
+export function getCaptcha(captchaDTO) {
   return request({
     url: "/captcha/gen",
     method: "post",

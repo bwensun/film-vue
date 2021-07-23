@@ -43,7 +43,7 @@
                 搜索</el-button
               >
             </div>
-            <div class="login_register_button" v-show="loginRegisterShow">
+            <div class="login_register_button" v-show="!userShow">
               <el-button type="text" class="login_button" @click="login"
                 >登录</el-button
               >
@@ -51,7 +51,7 @@
                 >快速注册</el-button
               >
             </div>
-            <div class="already-login" v-show="alreadyLoginShow">
+            <div class="already-login" v-show="userShow">
               <div>
                 <el-avatar
                   shape="square"
@@ -210,227 +210,32 @@
       </el-footer>
     </el-container>
 
-    <el-dialog
-      title="登录"
-      :visible.sync="loginDialogVisible"
-      width="22%"
-      :before-close="handleClose"
-    >
-      <el-form
-        :model="loginForm"
-        :status-icon="true"
-        :rules="rules"
-        ref="loginForm"
-        class="login_form"
-      >
-        <el-form-item prop="username">
-          <el-input
-            type="input"
-            placeholder="用户名/邮箱"
-            v-model="loginForm.username"
-            autocomplete="off"
-          ></el-input>
-        </el-form-item>
-        <el-form-item prop="password">
-          <el-input
-            type="password"
-            placeholder="请输入密码"
-            v-model="loginForm.password"
-            autocomplete="off"
-          ></el-input>
-        </el-form-item>
-        <div class="font-extra-small login-tip">
-          <div><a href="www.baidu.com">忘记密码?</a></div>
-          <span>新用户?<a href="www.baidu.com">注册</a></span>
-        </div>
-        <el-form-item>
-          <el-button
-            class="login-submit"
-            type="primary"
-            @keyup.enter.native="handleLogin"
-            @click.native.prevent="handleLogin"
-            >快速登录</el-button
-          >
-        </el-form-item>
-        <div class="other-login font-extra-small">
-          <span>微信登录</span>
-          <a href="http://www.baidu.com">
-            <el-image
-              style="width: 20px; height: 20px"
-              :src="'http://image.bowensun.top/iconwechat.svg'"
-              :fit="fit"
-            ></el-image>
-          </a>
-        </div>
-      </el-form>
-    </el-dialog>
-
-    <el-dialog
-      class="register-dialog"
-      title="注册"
-      :visible.sync="registerDialogVisible"
-      width="26%"
-      :before-close="handleClose"
-    >
-      <div class="register-step">
-        <el-steps
-          v-bind="registerStep"
-          :space="100"
-          direction="vertical"
-          :active="registerStepActive"
-          finish-status="success"
-        >
-          <el-step title="基本信息"></el-step>
-          <el-step title="邮箱验证"></el-step>
-          <el-step title="注册"></el-step>
-        </el-steps>
-      </div>
-
-      <div class="register_form">
-        <el-form
-          :model="registerForm"
-          :status-icon="true"
-          :rules="rules"
-          ref="registerForm"
-          class="register_form"
-        >
-          <el-form-item prop="username" v-show="registerStep1Show">
-            <el-input
-              type="input"
-              placeholder="用户名"
-              v-model="registerForm.username"
-              autocomplete="off"
-            ></el-input>
-          </el-form-item>
-          <el-form-item prop="nickname" v-show="registerStep1Show">
-            <el-input
-              type="input"
-              placeholder="昵称"
-              v-model="registerForm.nickname"
-              autocomplete="off"
-            ></el-input>
-          </el-form-item>
-          <el-form-item prop="password" v-show="registerStep1Show">
-            <el-input
-              type="password"
-              placeholder="请输入密码"
-              v-model="registerForm.password"
-              autocomplete="off"
-            ></el-input>
-          </el-form-item>
-          <el-form-item prop="email" v-show="registerStep2Show">
-            <el-input
-              type="input"
-              placeholder="邮箱"
-              v-model="registerForm.email"
-              autocomplete="off"
-            ></el-input>
-          </el-form-item>
-          <el-form-item prop="captcha" v-show="registerStep2Show">
-            <div class="register-captcha">
-              <el-input
-                type="input"
-                placeholder="验证码"
-                v-model="registerForm.captcha"
-                autocomplete="off"
-              ></el-input>
-              <el-button type="primary" @click="getRegisterCaptcha">
-                获取验证码
-              </el-button>
-            </div>
-          </el-form-item>
-          <el-form-item>
-            <el-button
-              class="register-next-step1"
-              type="success"
-              v-show="registerStep1Show"
-              @click.native.prevent="step1"
-              >下一步</el-button
-            >
-            <div class="registerStep2Button" v-show="registerStep2Show">
-              <el-button
-                class="register-return"
-                type="success"
-                @click.native.prevent="returnStep1"
-                >返回</el-button
-              >
-              <el-button
-                class="register-next-step2"
-                type="success"
-                @click.native.prevent="registerSubmit"
-                >注册</el-button
-              >
-            </div>
-          </el-form-item>
-        </el-form>
-      </div>
-    </el-dialog>
+    <login @displayUser='showUser'></login>
+    <register @displayUser='showUser' ref="register"></register>
   </div>
 </template>
 
 <script>
-import { getFilmList, getActivityRank, getRegisterCaptcha } from "@/api/index";
+import { getFilmList, getActivityRank } from "@/api/index";
+import Login from "@/components/Login";
+import Register from "@/components/register";
 export default {
   name: "Index",
+  components: {
+    Login,
+    Register
+  },
   data() {
-    var checkUsername = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error("用户名不能为空"));
-      }
-      if (value.length < 2 || value.length > 20) {
-        return callback(new Error("用户名长度在2-20字符内"));
-      }
-      callback();
-    };
-    var checkPass = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入密码"));
-      }
-      callback();
-    };
-    var checkNickname = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error("昵称不能为空"));
-      }
-      if (value.length < 2 || value.length > 20) {
-        return callback(new Error("昵称长度在2-20字符内"));
-      }
-      callback();
-    };
     return {
       filmList: null,
       userActivityRank: null,
-      //登录框显示开关
-      loginDialogVisible: false,
-      //注册框显示开关
-      registerDialogVisible: false,
-      loginRegisterShow: true,
-      alreadyLoginShow: false,
-      registerStep1Show: true,
-      registerStep2Show: false,
-      registerStepActive: 0,
-      loginForm: {
-        username: "",
-        password: ""
-      },
-      registerForm: {
-        username: "",
-        password: "",
-        nickname: "",
-        email: "",
-        captcha: ""
-      },
-      rules: {
-        password: [{ validator: checkPass, trigger: "blur" }],
-        username: [{ validator: checkUsername, trigger: "blur" }],
-        nickname: [{ validator: checkNickname, trigger: "blur" }]
-      },
       user: {
         username: "bwensun",
         avatar:
           "http://image.bowensun.top/avatar%E5%AD%99%E5%8D%9A%E6%96%87.webp",
         nickname: "霸道学长孙博文"
-      }
+      },
+      userShow: false,
     };
   },
   async created() {
@@ -452,54 +257,15 @@ export default {
       });
     },
     login() {
-      this.loginDialogVisible = true;
+      this.$store.commit("login/SET_VISIBLE", true);
     },
     register() {
-      this.registerDialogVisible = true;
-      this.registerStepActive = 0;
-      this.registerStep1Show = true;
-      this.registerStep2Show = false;
+      this.$refs.register.initForm();
+      this.$store.commit("register/SET_VISIBLE", true);
     },
-    async handleLogin() {
-      const that = this;
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          that.$store
-            .dispatch("Login", that.loginForm)
-            .then(() => {
-              that.$router.push({ path: "/" });
-              that.$refs["loginForm"].resetFields();
-              that.afterLogin();
-            })
-            .catch(a => {
-              console.log("登录出错!");
-            });
-        }
-      });
-    },
-    step1() {
-      this.registerStepActive = 1;
-      this.registerStep1Show = false;
-      this.registerStep2Show = true;
-    },
-    returnStep1() {
-      this.registerStepActive = 0;
-      this.registerStep2Show = false;
-      this.registerStep1Show = true;
-    },
-    step2() {
-      this.registerStep2Show = false;
-      this.registerStep3Show = true;
-    },
-    async getRegisterCaptcha(){
-      console.log(this.registerForm.username);
-      const captchaDTO = {
-        username: this.registerForm.username,
-        to: this.registerForm.email,
-        captchaType: "register"
-      }
-      getRegisterCaptcha(captchaDTO);
-      this.registerStepActive = 2;
+    showUser(){
+      console.log(this.userShow);
+      this.userShow = true;
     },
     async registerSubmit() {
       const that = this;
@@ -517,7 +283,7 @@ export default {
             .catch(a => {
               console.log("error!");
             });
-        }else {
+        } else {
           that.validateAlert();
         }
       });
@@ -530,19 +296,6 @@ export default {
         showClose: false
       });
     },
-    validateAlert() {
-      const h = this.$createElement;
-      this.$message({
-        message: h('p', null, [
-          h('span', null, '您的输入有误，请按照规范填写')
-        ])
-      });
-    },
-    afterLogin() {
-      this.loginDialogVisible = false;
-      this.registerDialogVisible = false;
-      this.alreadyLoginShow = true;
-    }
   }
 };
 </script>
