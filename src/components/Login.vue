@@ -113,7 +113,7 @@ export default {
           console.log("store: %o", this.$store);
           console.log("loginForm: %o", this.loginForm);
           this.$store
-            .dispatch("login/Login", this.loginForm)
+            .dispatch("user/login", this.loginForm)
             .then(() => {
               this.$router.push({ path: "/" });
               this.$refs["loginForm"].resetFields();

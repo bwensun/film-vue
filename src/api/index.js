@@ -47,3 +47,10 @@ export function getCaptcha(captchaDTO) {
     data: captchaDTO
   });
 }
+//用户详情接口
+export function getUserInfo(token) {
+  return request({
+    url: "/user/userInfo?token=" + token,
+    method: "get"
+  });
+}

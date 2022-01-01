@@ -1,11 +1,26 @@
-import { getCaptcha, register } from "@/api/index";
+import { getCaptcha, register, login, getUserInfo } from "@/api/index";
 
 export default {
   state: {
     user: {
+      id: 0,
       username: "",
+      nickname: "",
+      level: 0,
+      activity: 0,
+      sex: 2,
+      email: "",
+      phoneNumber: "",
+      status: "",
+      avatar: "",
       captcha: "",
       token: ""
+    },
+    result: {
+      success: false,
+      code: "",
+      data: null,
+      message: ""
     }
   },
   namespaced: true,
@@ -18,6 +33,9 @@ export default {
     }
   },
   mutations: {
+    SET_USER: (state, user) => {
+      state.user = user;
+    },
     SET_CAPTCHA: (state, captcha) => {
       state.user.captcha = captcha;
     },
@@ -35,8 +53,20 @@ export default {
     },
     //注册
     async register({ commit }, registerDTO) {
-      const token = await register(registerDTO);
-      commit("SET_TOKEN", token);
+      const registerResult = await register(registerDTO);
+      console.log("register result: %o", registerResult);
+      const userInfo = await getUserInfo(registerResult.data);
+      commit("SET_USER", userInfo);
+      console.log("user: %o", state.user);
+    },
+    //注册
+    async login({ commit }, loginDTO) {
+      const loginResult = await login(loginDTO);
+      console.log("login result: %o", loginResult);
+      console.log("login result: %s", loginResult.data);
+      const userResult = await getUserInfo(loginResult.data);
+      console.log("user: %o", userResult);
+      commit("SET_USER", userResult.data);
     }
   }
 };

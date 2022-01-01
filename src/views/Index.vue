@@ -7,6 +7,11 @@
             <div class="header-banner">
               <div class="header-banner-left">
                 <div class="header-logo">
+                  <el-image
+                    style="width: 100px; height: 100px"
+                    :src="require('@/assets/logo.png')"
+                    :fit="fit"
+                  ></el-image>
                   <h1 style="line-height: 49px">
                     Film
                   </h1>
@@ -15,7 +20,7 @@
                   <el-menu
                     :default-active="'1'"
                     text-color="#333333"
-                    background-color="#f9f9f9"
+                    background-color="rgb(245,245,245)"
                     class="header-menu-list"
                     mode="horizontal"
                     @select="handleSelect"
@@ -114,10 +119,7 @@
         </el-main>
         <el-aside width="400px">
           <div class="aside">
-            <div class="encourag font-base-small">
-              <p class="b2-color" align="left">嗨！朋友</p>
-              <p align="left">所有的伟大，都源于一个勇敢的开始</p>
-            </div>
+            <greeting></greeting>     
             <div class="interval"></div>
             <div class="active-user">
               <h3>活跃排行</h3>
@@ -210,8 +212,8 @@
       </el-footer>
     </el-container>
 
-    <login @displayUser='showUser'></login>
-    <register @displayUser='showUser' ref="register"></register>
+    <login @displayUser="showUser"></login>
+    <register @displayUser="showUser" ref="register"></register>
   </div>
 </template>
 
@@ -219,29 +221,33 @@
 import { getFilmList, getActivityRank } from "@/api/index";
 import Login from "@/components/Login";
 import Register from "@/components/register";
+import Greeting from "@/components/greeting";
+
 export default {
   name: "Index",
   components: {
     Login,
-    Register
+    Register,
+    Greeting,
   },
   data() {
     return {
       filmList: null,
       userActivityRank: null,
-      user: {
-        username: "bwensun",
-        avatar:
-          "http://image.bowensun.top/avatar%E5%AD%99%E5%8D%9A%E6%96%87.webp",
-        nickname: "霸道学长孙博文"
-      },
-      userShow: false,
+      userShow: false
     };
   },
   async created() {
     console.log("初始化...");
     this.getContent();
     this.getActivityRank();
+  },
+  computed: {
+    user: {
+      get() {
+        return this.$store.getters["user/user"];
+      }
+    }
   },
   methods: {
     async getContent() {
@@ -263,39 +269,10 @@ export default {
       this.$refs.register.initForm();
       this.$store.commit("register/SET_VISIBLE", true);
     },
-    showUser(){
+    showUser() {
       console.log(this.userShow);
       this.userShow = true;
-    },
-    async registerSubmit() {
-      const that = this;
-      this.$refs.registerForm.validate(valid => {
-        if (valid) {
-          that.$store
-            .dispatch("Register", that.registerForm)
-            .then(() => {
-              that.$refs["registerForm"].resetFields();
-              this.loginDialogVisible = true;
-              this.registerDialogVisible = false;
-              that.$router.push({ path: "/" });
-              that.messageNotice();
-            })
-            .catch(a => {
-              console.log("error!");
-            });
-        } else {
-          that.validateAlert();
-        }
-      });
-    },
-    messageNotice() {
-      this.$notify.success({
-        title: "注册成功",
-        message: "请于登录页登录！",
-        duration: 2000,
-        showClose: false
-      });
-    },
+    }
   }
 };
 </script>
@@ -317,7 +294,7 @@ ul {
   align-content: center;
 }
 .el-header {
-  background-color: #f9f9f9;
+  background-color: rgb(245,245,245);
   color: #333333;
   text-align: center;
   height: 70px !important;
@@ -338,7 +315,7 @@ ul {
 }
 .menu-item:focus,
 .menu-item:hover {
-  background-color: #f9f9f9 !important;
+  background-color: rgb(245,245,245) !important;
 }
 
 .login_button {
@@ -413,22 +390,10 @@ ul {
 .aside {
   padding-top: 98px;
 }
-.encourag {
-  padding-top: 10px;
-  padding-left: 20px;
-  background-image: linear-gradient(
-    90deg,
-    #fff2ec 0,
-    #f0f1f6 42%,
-    #e1f0ff 100%
-  );
-  width: 75%;
-  height: 120px;
-}
 .interval {
   width: 80%;
   height: 30px;
-  background: #f9f9f9;
+  background: rgb(245,245,245);
 }
 .activity-rank-li {
   padding-bottom: 20px;
@@ -535,27 +500,6 @@ ul {
 /* 公用css */
 .b2-color {
   color: #4387fd;
-}
-.font-extra-small {
-  font-size: 12px;
-}
-.font-small {
-  font-size: 13px;
-}
-.font-base-small {
-  font-size: 13.5px;
-}
-.font-base {
-  font-size: 14px;
-}
-.font-medium {
-  font-size: 16px;
-}
-.font-large {
-  font-size: 18px;
-}
-.font-extra-large {
-  font-size: 20px;
 }
 .span-right {
   text-align: left;

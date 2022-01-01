@@ -11,6 +11,7 @@ import VueAxios from 'vue-axios'
 import Vuex from 'vuex'
 import store from './store'
 import "./assets/icon/iconfont.css"
+import "./assets/css/base.css"
 require ('./assets/icon/iconfont.js')
 
 
