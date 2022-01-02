@@ -47,7 +47,6 @@
           <el-image
             style="width: 20px; height: 20px"
             :src="'http://image.bowensun.top/iconwechat.svg'"
-            :fit="fit"
           ></el-image>
         </a>
       </div>
@@ -133,6 +132,9 @@ export default {
     showRegister(){
       this.visible = false;
       this.$store.commit('register/SET_VISIBLE', true)
+    },
+    handleClose(){
+      console.log("原生handleClose");
     }
   },
   computed: {

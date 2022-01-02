@@ -25,7 +25,7 @@ export default {
   },
   created() {
     this.getOne();
-  },
+  }
 };
 </script>
 

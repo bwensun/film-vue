@@ -8,7 +8,6 @@
   >
     <div class="register-step">
       <el-steps
-        v-bind="registerStep"
         :space="100"
         direction="vertical"
         :active="active"
@@ -187,6 +186,9 @@ export default {
         this.visible = false;
         this.displayUser();
       });
+    },
+    handleClose() {
+      console.log("原生handleClose");
     }
   },
   computed: {
