@@ -54,7 +54,10 @@
 
 <script>
 export default {
-  name: "Footer"
+  name: "BaseFooter",
+  data(){
+
+  }
 };
 </script>
 

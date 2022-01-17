@@ -3,12 +3,17 @@
     <p align="left">嗨！朋友</p>
     <p align="left">{{sententce}}</p>
   </div>
+  
 </template>
 
 <script>
 import axios from "axios";
+import baseFooter from "@/components/baseFooter";
 export default {
   name: "Greeting",
+  components: {
+      baseFooter
+  },
   data() {
     return {
       sententce: "所有的伟大，都源于一个勇敢的开始"

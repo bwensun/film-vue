@@ -79,7 +79,11 @@
               <div class="main">
                 <ul class="content-ul-item">
                   <el-divider></el-divider>
-                  <li class="post-li" v-for="film in this.filmList" :key="film.id">
+                  <li
+                    class="post-li"
+                    v-for="film in this.filmList"
+                    :key="film.id"
+                  >
                     <div class="content-item">
                       <div class="item-cover">
                         <img
@@ -118,7 +122,7 @@
         </el-main>
         <el-aside width="400px">
           <div class="aside">
-            <greeting></greeting>     
+            <greeting></greeting>
             <div class="interval"></div>
             <div class="active-user">
               <h3>活跃排行</h3>
@@ -157,7 +161,7 @@
           </div>
         </el-aside>
       </el-container>
-      <footer></footer>
+      <baseFooter></baseFooter>
     </el-container>
 
     <login @displayUser="showUser"></login>
@@ -170,7 +174,8 @@ import { getFilmList, getActivityRank } from "@/api/index";
 import Login from "@/components/Login";
 import Register from "@/components/register";
 import Greeting from "@/components/greeting";
-import Footer from "@/components/footer";
+import BaseFooter from "@/components/baseFooter";
+
 
 export default {
   name: "Index",
@@ -178,7 +183,7 @@ export default {
     Login,
     Register,
     Greeting,
-    Footer
+    BaseFooter
   },
   data() {
     return {
@@ -227,7 +232,6 @@ export default {
     handleSelect() {
       console.log("handleSelect - 跳转界面");
     }
-    
   }
 };
 </script>
@@ -249,7 +253,7 @@ ul {
   align-content: center;
 }
 .el-header {
-  background-color: rgb(245,245,245);
+  background-color: rgb(245, 245, 245);
   color: #333333;
   text-align: center;
   height: 70px !important;
@@ -270,7 +274,7 @@ ul {
 }
 .menu-item:focus,
 .menu-item:hover {
-  background-color: rgb(245,245,245) !important;
+  background-color: rgb(245, 245, 245) !important;
 }
 
 .login_button {
@@ -348,7 +352,7 @@ ul {
 .interval {
   width: 80%;
   height: 30px;
-  background: rgb(245,245,245);
+  background: rgb(245, 245, 245);
 }
 .activity-rank-li {
   padding-bottom: 20px;
@@ -441,4 +445,8 @@ ul {
 .span-right {
   text-align: left;
 }
+
+
+
+
 </style>
