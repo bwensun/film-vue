@@ -44,7 +44,7 @@
     </el-row>
     <el-row>
       <el-col :span="4" :offset="2">
-        <div class="footer-bottom font-small">
+        <div class="font-small footer-bottom">
           <span>Copyright © 2021 Film网站</span>
         </div>
       </el-col>
