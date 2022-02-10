@@ -96,7 +96,7 @@ export default {
       email: "",
       captcha: ""
     },
-    //注册框显示开关
+    //注册框显示开关.
     step1Visible: true,
     step2Visible: false,
     active: 0,
