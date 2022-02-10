@@ -218,7 +218,7 @@ export default {
 <style>
 ul {
   list-style: none;
-  /* padding: 20px; */
+  padding: 0px;
 }
 .header-banner-left {
   display: flex;
@@ -345,9 +345,10 @@ ul {
 }
 .active-rank {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 .active-ranl-left {
+  width: 60%;
   display: flex;
   justify-content: flex-start;
 }
@@ -362,7 +363,7 @@ ul {
   color: #7e7b7b;
   font-weight: 600;
   padding: 10px;
-  width: 40px;
+  width: 10%;
   border-radius: 5px;
   display: flex;
   align-content: center;
