@@ -8,7 +8,7 @@ axios.defaults.headers["Content-Type"] = "application/json;charset=utf-8";
 //配置axios默认实例
 const service = axios.create({
   // axios中请求配置有baseURL选项，表示请求URL公共部分
-  baseURL: "http://localhost:9090/",
+  baseURL: "http://117.50.173.34:9090/",
   // 超时
   timeout: 10000
 });
@@ -19,7 +19,7 @@ service.interceptors.request.use(
     // 是否需要设置 token
     // const isToken = (config.headers || {}).isToken === false;
     // if (getToken() && !isToken) {
-      // config.headers["Authorization"] = "Bearer " + getToken(); // 让每个请求携带自定义token 请根据实际情况自行修改
+    // config.headers["Authorization"] = "Bearer " + getToken(); // 让每个请求携带自定义token 请根据实际情况自行修改
     // }
     return config;
   },
