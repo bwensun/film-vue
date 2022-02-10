@@ -16,6 +16,7 @@
           placeholder="请输入密码"
           v-model="loginForm.password"
           autocomplete="off"
+          @keyup.enter.native="handleLogin"
         ></el-input>
       </el-form-item>
       <div class="font-extra-small login-tip">
@@ -28,12 +29,7 @@
         </span>
       </div>
       <el-form-item>
-        <el-button
-          class="login-submit"
-          type="primary"
-          @keyup.enter.native="handleLogin"
-          @click.native.prevent="handleLogin"
-        >快速登录</el-button>
+        <el-button class="login-submit" type="primary" @click.native.prevent="handleLogin">快速登录</el-button>
       </el-form-item>
       <div class="other-login font-extra-small">
         <span>微信登录</span>
@@ -99,6 +95,9 @@ export default {
     }
   }),
   methods: {
+    enterLogin() {
+
+    },
     //执行等六
     async handleLogin() {
       this.$refs.loginForm.validate(valid => {
@@ -130,7 +129,7 @@ export default {
     handleClose() {
       console.log("原生handleClose");
       this.$store.commit('login/SET_VISIBLE', false)
-    }
+    },
   },
   computed: {
     visible: {
