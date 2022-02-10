@@ -36,12 +36,15 @@
               <el-button type="text" class="register_button" @click="register">快速注册</el-button>
             </div>
             <div class="already-login" v-show="userShow">
-              <div>
+              <div class="user">
                 <el-avatar
                   shape="square"
                   :size="36"
                   v-bind:src="user.avatar || 'http://image.bowensun.top/avatar%E5%AD%99%E5%8D%9A%E6%96%87.webp'"
                 ></el-avatar>
+                <div>
+                  <h3>{{ user.username }}</h3>
+                </div>
               </div>
             </div>
           </el-col>
@@ -426,4 +429,14 @@ ul {
 .span-right {
   text-align: left;
 }
+.user {
+  display: flex;
+  width: 120px;
+  justify-content: space-around;
+  align-items: center;
+}
+/* .user:first-child {
+  display: flex;
+  align-content: center;
+} */
 </style>
