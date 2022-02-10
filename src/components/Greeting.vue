@@ -1,9 +1,11 @@
 <template>
   <div class="encourag font-base-small">
-    <p align="left">嗨！朋友</p>
-    <p align="left">{{sententce}}</p>
+    <div class="blur"></div>
+    <div class="font">
+      <p align="left">嗨！朋友</p>
+      <p align="left">{{ sententce }}</p>
+    </div>
   </div>
-  
 </template>
 
 <script>
@@ -12,7 +14,7 @@ import baseFooter from "@/components/baseFooter";
 export default {
   name: "Greeting",
   components: {
-      baseFooter
+    baseFooter
   },
   data() {
     return {
@@ -20,12 +22,12 @@ export default {
     };
   },
   methods: {
-    getOne: function(){
-        axios
-          .get('https://v1.hitokoto.cn/?c=k')
-          .then(response => {
-              this.sententce = response.data.hitokoto;
-          })
+    getOne: function () {
+      axios
+        .get('https://v1.hitokoto.cn/?c=k')
+        .then(response => {
+          this.sententce = response.data.hitokoto;
+        })
     },
   },
   created() {
@@ -36,15 +38,40 @@ export default {
 
 <style scoped>
 .encourag {
+  position: relative;
   padding-top: 10px;
   padding-left: 20px;
   background-image: linear-gradient(
-    90deg,
-    #fff2ec 0,
-    #f0f1f6 42%,
-    #e1f0ff 100%
+    135deg,
+    rgb(240, 222, 222) 0,
+    rgb(133, 133, 189) 42%,
+    rgb(191, 248, 191) 100%
   );
+  /* backdrop-filter: blur(20px); */
   width: 75%;
   height: 120px;
+}
+.font-base-small {
+  border-radius: 16px;
+  box-shadow: 6px 8px 10px rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.8);
+  border-left: 1px solid rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(5px);
+  /* filter: blur(10px); */
+  /* filter: alpha(opacity=30); */
+  z-index: 1;
+}
+.blur {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  filter: blur(100px);
+  z-index: 2;
+}
+.font {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
 }
 </style>

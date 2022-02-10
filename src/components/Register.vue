@@ -3,16 +3,11 @@
     class="register-dialog"
     title="注册"
     :visible.sync="visible"
-    width="26%"
+    width="30%"
     :before-close="handleClose"
   >
     <div class="register-step">
-      <el-steps
-        :space="100"
-        direction="vertical"
-        :active="active"
-        finish-status="success"
-      >
+      <el-steps :space="100" direction="vertical" :active="active" finish-status="success">
         <el-step title="基本信息"></el-step>
         <el-step title="邮箱验证"></el-step>
         <el-step title="注册"></el-step>
@@ -52,12 +47,7 @@
           ></el-input>
         </el-form-item>
         <el-form-item prop="email" v-show="step2Visible">
-          <el-input
-            type="input"
-            placeholder="邮箱"
-            v-model="registerForm.email"
-            autocomplete="off"
-          ></el-input>
+          <el-input type="input" placeholder="邮箱" v-model="registerForm.email" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item prop="captcha" v-show="step2Visible">
           <div class="register-captcha">
@@ -76,21 +66,14 @@
             type="success"
             v-show="step1Visible"
             @click.native.prevent="nextStep()"
-            >下一步</el-button
-          >
+          >下一步</el-button>
           <div class="registerStep2Button" v-show="step2Visible">
-            <el-button
-              class="register-return"
-              type="success"
-              @click.native.prevent="initForm"
-              >返回</el-button
-            >
+            <el-button class="register-return" type="success" @click.native.prevent="initForm">返回</el-button>
             <el-button
               class="register-next-step2"
               type="success"
               @click.native.prevent="registerSubmit"
-              >注册</el-button
-            >
+            >注册</el-button>
           </div>
         </el-form-item>
       </el-form>
@@ -161,16 +144,16 @@ export default {
   }),
   methods: {
     //初始化表单
-    initForm: function() {
+    initForm: function () {
       this.step1Visible = true;
       this.step2Visible = false;
     },
     //打开用户信息展示开关
     displayUser() {
-      this.$emit("displayUser", true);
+      this.$store.commit("loginAndregister/SET_USERSHOW", true);
     },
     //下一步
-    nextStep: function() {
+    nextStep: function () {
       this.$refs.registerForm.validate(valid => {
         if (valid) {
           this.step1Visible = false;
@@ -179,7 +162,7 @@ export default {
       });
     },
     //提交注册信息
-    registerSubmit: function() {
+    registerSubmit: function () {
       this.$refs.registerForm.validate(valid => {
         this.$store.dispatch("user/register", this.registerForm);
         this.$refs["registerForm"].resetFields();
@@ -189,6 +172,7 @@ export default {
     },
     handleClose() {
       console.log("原生handleClose");
+      this.$store.commit("register/SET_VISIBLE", false);
     }
   },
   computed: {
@@ -203,3 +187,6 @@ export default {
   }
 };
 </script>
+
+<style>
+</style>

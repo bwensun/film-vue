@@ -1,10 +1,5 @@
 <template>
-  <el-dialog
-    title="登录"
-    :visible.sync="visible"
-    width="22%"
-    :before-close="handleClose"
-  >
+  <el-dialog title="登录" :visible.sync="visible" width="22%" :before-close="handleClose">
     <el-form
       :model="loginForm"
       :status-icon="true"
@@ -13,12 +8,7 @@
       class="login_form"
     >
       <el-form-item prop="username">
-        <el-input
-          type="input"
-          placeholder="用户名/邮箱"
-          v-model="loginForm.username"
-          autocomplete="off"
-        ></el-input>
+        <el-input type="input" placeholder="用户名/邮箱" v-model="loginForm.username" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item prop="password">
         <el-input
@@ -29,8 +19,13 @@
         ></el-input>
       </el-form-item>
       <div class="font-extra-small login-tip">
-        <div><a href="www.baidu.com">忘记密码?</a></div>
-        <span>新用户?<a href="javascript:void(0)" @click="showRegister()">注册</a></span>
+        <div>
+          <a href="www.baidu.com">忘记密码?</a>
+        </div>
+        <span>
+          新用户?
+          <a href="javascript:void(0)" @click="showRegister()">注册</a>
+        </span>
       </div>
       <el-form-item>
         <el-button
@@ -38,8 +33,7 @@
           type="primary"
           @keyup.enter.native="handleLogin"
           @click.native.prevent="handleLogin"
-          >快速登录</el-button
-        >
+        >快速登录</el-button>
       </el-form-item>
       <div class="other-login font-extra-small">
         <span>微信登录</span>
@@ -126,15 +120,16 @@ export default {
       });
     },
     //打开用户信息展示开关
-    displayUser(){
-      this.$emit('displayUser', true);
+    displayUser() {
+      this.$store.commit("loginAndregister/SET_USERSHOW", true);
     },
-    showRegister(){
+    showRegister() {
       this.visible = false;
       this.$store.commit('register/SET_VISIBLE', true)
     },
-    handleClose(){
+    handleClose() {
       console.log("原生handleClose");
+      this.$store.commit('login/SET_VISIBLE', false)
     }
   },
   computed: {

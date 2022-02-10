@@ -7,13 +7,8 @@
             <div class="header-banner">
               <div class="header-banner-left">
                 <div class="header-logo">
-                  <el-image
-                    style="width: 100px; height: 100px"
-                    :src="require('@/assets/logo.png')"
-                  ></el-image>
-                  <h1 style="line-height: 49px">
-                    Film
-                  </h1>
+                  <el-image style="width: 100px; height: 100px" :src="require('@/assets/logo.png')"></el-image>
+                  <h1 style="line-height: 49px">Film</h1>
                 </div>
                 <div class="header-menu">
                   <el-menu
@@ -24,12 +19,8 @@
                     mode="horizontal"
                     @select="handleSelect"
                   >
-                    <el-menu-item index="1" class="menu-item"
-                      >公告</el-menu-item
-                    >
-                    <el-menu-item index="2" class="menu-item"
-                      >榜单</el-menu-item
-                    >
+                    <el-menu-item index="1" class="menu-item">公告</el-menu-item>
+                    <el-menu-item index="2" class="menu-item">榜单</el-menu-item>
                   </el-menu>
                 </div>
               </div>
@@ -37,30 +28,19 @@
           </el-col>
           <el-col :span="10" :push="0" class="header-banner-right">
             <div class="search">
-              <el-input
-                v-model="serachValue"
-                placeholder="搜索"
-                :disabled="true"
-              ></el-input>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <el-button type="primary" size="medium" icon="el-icon-search">
-                搜索</el-button
-              >
+              <el-input v-model="serachValue" placeholder="搜索" :disabled="true"></el-input>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <el-button type="primary" size="medium" icon="el-icon-search">搜索</el-button>
             </div>
             <div class="login_register_button" v-show="!userShow">
-              <el-button type="text" class="login_button" @click="login"
-                >登录</el-button
-              >
-              <el-button type="text" class="register_button" @click="register"
-                >快速注册</el-button
-              >
+              <el-button type="text" class="login_button" @click="login">登录</el-button>
+              <el-button type="text" class="register_button" @click="register">快速注册</el-button>
             </div>
             <div class="already-login" v-show="userShow">
               <div>
                 <el-avatar
                   shape="square"
                   :size="36"
-                  v-bind:src="user.avatar"
+                  v-bind:src="user.avatar || 'http://image.bowensun.top/avatar%E5%AD%99%E5%8D%9A%E6%96%87.webp'"
                 ></el-avatar>
               </div>
             </div>
@@ -79,18 +59,10 @@
               <div class="main">
                 <ul class="content-ul-item">
                   <el-divider></el-divider>
-                  <li
-                    class="post-li"
-                    v-for="film in this.filmList"
-                    :key="film.id"
-                  >
+                  <li class="post-li" v-for="film in this.filmList" :key="film.id">
                     <div class="content-item">
                       <div class="item-cover">
-                        <img
-                          v-bind:src="film.cover"
-                          height="200px"
-                          v-bind:alt="film.fileName"
-                        />
+                        <img v-bind:src="film.cover" height="200px" v-bind:alt="film.fileName" />
                       </div>
                       <div class="item-right">
                         <div class="item-data">
@@ -100,9 +72,7 @@
                           </div>
                           <div class="item-data-other">
                             <ul class="item-data-other-list">
-                              <li class="item-director">
-                                {{ film.director }}
-                              </li>
+                              <li class="item-director">{{ film.director }}</li>
                               <li class="item-date">
                                 {{ film.screenDate }}&nbsp;{{
                                   film.screenLocation
@@ -119,6 +89,12 @@
               </div>
             </el-col>
           </el-row>
+          <el-pagination
+            background
+            layout="prev, pager, next"
+            :total="50"
+            @current-change="changeContent"
+          ></el-pagination>
         </el-main>
         <el-aside width="400px">
           <div class="aside">
@@ -135,24 +111,18 @@
                 >
                   <div class="active-rank">
                     <div class="active-ranl-left">
-                      <el-avatar
-                        shape="square"
-                        :size="36"
-                        v-bind:src="activity.avatar"
-                      ></el-avatar>
+                      <el-avatar shape="square" :size="36" v-bind:src="activity.avatar"></el-avatar>
                       <div class="active-rank-desc">
                         <span>{{ activity.nickname }}</span>
-                        <span style="text-align: left; color: #bcbcbc"
-                          >Lv{{ activity.level }}</span
-                        >
+                        <span style="text-align: left; color: #bcbcbc">Lv{{ activity.level }}</span>
                       </div>
                     </div>
                     <div class="active-rank-right">
                       <el-image
                         style="width: 20px; height: 20px"
                         :src="'http://image.bowensun.top/iconcoin.svg'"
-                      ></el-image
-                      >&nbsp;&nbsp;{{ activity.activity }}
+                      ></el-image>
+                      &nbsp;&nbsp;{{ activity.activity }}
                     </div>
                   </div>
                 </li>
@@ -164,8 +134,8 @@
       <baseFooter></baseFooter>
     </el-container>
 
-    <login @displayUser="showUser"></login>
-    <register @displayUser="showUser" ref="register"></register>
+    <login></login>
+    <register ref="register"></register>
   </div>
 </template>
 
@@ -189,7 +159,7 @@ export default {
     return {
       filmList: null,
       userActivityRank: null,
-      userShow: false,
+      // userShow: false,
       serachValue: null
     };
   },
@@ -202,6 +172,11 @@ export default {
     user: {
       get() {
         return this.$store.getters["user/user"];
+      }
+    },
+    userShow: {
+      get() {
+        return this.$store.getters["loginAndregister/userShow"]
       }
     }
   },
@@ -219,15 +194,19 @@ export default {
       });
     },
     login() {
+      console.log(this.userShow)
       this.$store.commit("login/SET_VISIBLE", true);
     },
     register() {
       this.$refs.register.initForm();
       this.$store.commit("register/SET_VISIBLE", true);
     },
-    showUser() {
-      console.log(this.userShow);
-      this.userShow = true;
+    // showUser() {
+    //   console.log(this.userShow);
+    //   this.$store.commit("loginAndregister/SET_USERSHOW", true);
+    // },
+    changeContent(num) {
+      console.log(num)
     },
     handleSelect() {
       console.log("handleSelect - 跳转界面");
@@ -239,7 +218,7 @@ export default {
 <style>
 ul {
   list-style: none;
-  padding: 20px;
+  /* padding: 20px; */
 }
 .header-banner-left {
   display: flex;
@@ -350,6 +329,7 @@ ul {
   padding-top: 98px;
 }
 .interval {
+  margin-top: 50px;
   width: 80%;
   height: 30px;
   background: rgb(245, 245, 245);
@@ -445,8 +425,4 @@ ul {
 .span-right {
   text-align: left;
 }
-
-
-
-
 </style>

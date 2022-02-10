@@ -33,9 +33,21 @@
                   :src="
                     'http://image.bowensun.top/avatar%E5%AD%99%E5%8D%9A%E6%96%87.webp'
                   "
-                ></el-avatar>
-                &nbsp; &nbsp;
+                ></el-avatar>&nbsp; &nbsp;
                 <span style="line-height: 36px">霸道学长孙博文</span>
+              </div>
+            </li>
+            <li>
+              <div class="footer-3">
+                <el-avatar
+                  shape="square"
+                  fit="scale-down"
+                  :size="36"
+                  :src="
+                    '../../static/img/baobao.png'
+                  "
+                ></el-avatar>&nbsp; &nbsp;
+                <span style="line-height: 36px">跑跑宝宝</span>
               </div>
             </li>
           </ul>
@@ -55,7 +67,10 @@
 <script>
 export default {
   name: "BaseFooter",
-  data(){
+  data() {
+    return {
+
+    }
 
   }
 };
@@ -73,6 +88,9 @@ export default {
 }
 .footer-1 {
   text-align: left;
+}
+.footer-2 li {
+  margin-top: 20px;
 }
 .footer-3 {
   display: flex;
