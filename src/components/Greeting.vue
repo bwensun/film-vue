@@ -37,6 +37,9 @@ export default {
 </script>
 
 <style scoped>
+p {
+  width: 90%;
+}
 .encourag {
   position: relative;
   padding-top: 10px;
