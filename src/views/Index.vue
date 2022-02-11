@@ -175,7 +175,7 @@ export default {
     user: {
       get() {
         return this.$store.getters["user/user"];
-      }
+      }//get是默认方法，是不是可以不写
     },
     userShow: {
       get() {

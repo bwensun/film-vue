@@ -29,7 +29,7 @@ export default {
       return state.user;
     },
     token: state => {
-      return state.token;
+      return state.token; //这个是不是写错了？？
     }
   },
   mutations: {
@@ -46,6 +46,7 @@ export default {
 
   actions: {
     // 获取验证码
+    //这个函数谁调用的？？？？？？
     async getCaptcha({ commit }, captcahDTO) {
       const captcha = await getCaptcha(captcahDTO);
       console.log(captcha);
