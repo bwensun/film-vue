@@ -1,10 +1,10 @@
 import request from "@/utils/request";
 
 //电影分页查询
-export function getFilmList(pageNumber, pageSize) {
+export function getFilmList(pageNo, pageSize) {
   const page = {
-    pageNumber,
-    pageSize
+    pageNo: pageNo,
+    pageSize: pageSize
   };
   return request({
     url: "/film/page",

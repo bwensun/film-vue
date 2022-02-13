@@ -62,7 +62,7 @@
               <div class="main">
                 <ul class="content-ul-item">
                   <el-divider></el-divider>
-                  <li class="post-li" v-for="film in this.filmList" :key="film.id">
+                  <li class="post-li" v-for="film in filmList" :key="film.id">
                     <div class="content-item">
                       <div class="item-cover">
                         <img v-bind:src="film.cover" height="200px" v-bind:alt="film.fileName" />
@@ -94,8 +94,10 @@
           </el-row>
           <el-pagination
             background
-            layout="prev, pager, next"
-            :total="50"
+            layout="total, sizes, prev, pager, next, jumper"
+            :page-sizes="[1, 2, 3, 4]"
+            :page-size="pageSize"
+            :total="total"
             @current-change="changeContent"
           ></el-pagination>
         </el-main>
@@ -163,7 +165,12 @@ export default {
       filmList: null,
       userActivityRank: null,
       // userShow: false,
-      serachValue: null
+      serachValue: null,
+      //
+      // pagerCount: 5,
+      pageNumber: 1,
+      pageSize: 1,
+      // total: 200,
     };
   },
   async created() {
@@ -181,13 +188,14 @@ export default {
       get() {
         return this.$store.getters["loginAndregister/userShow"]
       }
-    }
+    },
   },
   methods: {
     async getContent() {
-      getFilmList(1, 10).then(response => {
+      getFilmList(this.pageNumber, this.pageSize).then(response => {
         console.log(response.data.records);
         this.filmList = response.data.records;
+        this.total = response.data.total;
       });
     },
     async getActivityRank() {
@@ -210,6 +218,14 @@ export default {
     // },
     changeContent(num) {
       console.log(num)
+      console.log(this.filmList);
+      //点击时向后端发送需要显示的页面内容信息
+      // const showData = new Object();
+      // showData.pageNumber=this.pageNumber,
+      // showData.pageSize=this.pageSize,
+      // showData.page=num,
+      this.pageNumber = num;
+      this.getContent();
     },
     handleSelect() {
       console.log("handleSelect - 跳转界面");
