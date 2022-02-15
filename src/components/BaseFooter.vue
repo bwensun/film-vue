@@ -97,6 +97,6 @@ export default {
   align-content: center;
 }
 .footer-bottom {
-  padding-top: 100px;
+  padding-top: 90px;
 }
 </style>
