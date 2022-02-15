@@ -8,10 +8,10 @@
   >
     <div class="register" v-if="register">
       <div class="register-step">
-        <el-steps :space="100" direction="vertical" :active="active" finish-status="success">
+        <el-steps :active="active" finish-status="success" align-center>
           <el-step title="基本信息"></el-step>
           <el-step title="邮箱验证"></el-step>
-          <el-step title="注册"></el-step>
+          <el-step title="注册成功"></el-step>
         </el-steps>
       </div>
 
@@ -82,7 +82,7 @@
     </div>
     <el-result icon="success" title="注册成功" subTitle="是否返回主页" class="success" v-if="success">
       <template slot="extra">
-        <el-button type="primary" size="medium" @click="returnhome">返回（）</el-button>
+        <el-button type="primary" size="medium" @click="returnhome">返回({{ time }}s)</el-button>
       </template>
     </el-result>
   </el-dialog>
@@ -101,7 +101,12 @@ export default {
       password: "",
       nickname: "",
       email: "",
-      captcha: ""
+      captcha: "",
+    },
+    time: 5,
+    user: {
+      username: "",
+      password: "",
     },
     //注册框显示开关.
     step1Visible: true,
@@ -152,6 +157,22 @@ export default {
     }
   }),
   methods: {
+
+    //返回主页倒计时
+    counttime() {
+      let timer = setInterval(() => {
+        if (this.time > 0 && this.time <= 5) {
+          this.time--;
+        } else {
+          clearInterval(timer);
+          this.returnhome();
+          this.time = 5;
+        }
+      }, 1000);
+    },
+
+
+
     //初始化表单
     initForm: function () {
       this.step1Visible = true;
@@ -175,14 +196,18 @@ export default {
     registerSubmit: function () {
       this.$refs.registerForm.validate(valid => {
         this.$store.dispatch("user/register", this.registerForm);
+        this.user.username = this.registerForm.username;
+        this.user.password = this.registerForm.password;
         this.$refs["registerForm"].resetFields();
         this.register = false;
-        this.success = true
+        this.success = true;
+        this.counttime()
       });
     },
     returnhome() {
       this.visible = false;
       this.displayUser();
+      this.$store.dispatch("user/login", this.user);
     },
     handleClose() {
       console.log("原生handleClose");
@@ -204,10 +229,26 @@ export default {
 
 <style>
 .register {
+  width: 100%;
   display: grid;
-  grid-template-columns: 20% 80%;
+  grid-template-columns: 100%;
+  grid-template-rows: 20% 80%;
 }
-/* .success{
-  
-} */
+
+.register-step {
+  width: 100%;
+  text-align: left;
+}
+
+.register-dialog .el-dialog__body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+}
 </style>

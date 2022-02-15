@@ -1,4 +1,6 @@
 import request from "@/utils/request";
+import axios from "axios";
+// import { axios } from "vue/types/umd";
 
 //电影分页查询
 export function getFilmList(pageNo, pageSize) {
@@ -52,5 +54,13 @@ export function getUserInfo(token) {
   return request({
     url: "/user/userInfo?token=" + token,
     method: "get"
+  });
+}
+//用户注销
+export function layout(token) {
+  return axios({
+    method: "DELETE",
+    url: "http://117.50.173.34:9090/logout",
+    headers: { Authorization: "Bearer" + " " + token }
   });
 }
