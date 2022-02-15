@@ -16,7 +16,9 @@
           placeholder="请输入密码"
           v-model="loginForm.password"
           autocomplete="off"
+          @keyup.enter.native="handleLogin"
         ></el-input>
+        <el-checkbox v-model="loginForm.rememberme">记住密码（10天内自动登录）</el-checkbox>
       </el-form-item>
       <div class="font-extra-small login-tip">
         <div>
@@ -28,12 +30,7 @@
         </span>
       </div>
       <el-form-item>
-        <el-button
-          class="login-submit"
-          type="primary"
-          @keyup.enter.native="handleLogin"
-          @click.native.prevent="handleLogin"
-        >快速登录</el-button>
+        <el-button class="login-submit" type="primary" @click.native.prevent="handleLogin">快速登录</el-button>
       </el-form-item>
       <div class="other-login font-extra-small">
         <span>微信登录</span>
@@ -48,13 +45,20 @@
   </el-dialog>
 </template>
 <script>
+import Cookies from 'js-cookie'
+// import { getToken,setToken,removeToken} from '@/utils/auth'
+// if (getToken() && !isToken) {
+//   config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+// }
 export default {
   name: "login",
   data: () => ({
+    //记住密码
     //登录框显示开关
     loginForm: {
       username: "",
-      password: ""
+      password: "",
+      rememberme: true
     },
     rules: {
       password: [
@@ -98,13 +102,50 @@ export default {
       ]
     }
   }),
+  created: function () {
+    this.getCookie();
+  },
   methods: {
+    enterLogin() {
+
+    },
+    getCookie() {
+      const username = Cookies.get("username");
+      const password = Cookies.get("password");
+      const rememberMe = Cookies.get('rememberme')
+      this.loginForm = {
+        username: username === undefined ? this.loginForm.username : username,
+        password: password === undefined ? this.loginForm.password : password,
+        rememberme: rememberMe === undefined ? this.loginForm.rememberme : rememberMe
+      };
+    },
+    setCookie(c_name, c_pwd, exdays) {
+      var exdate = new Date(); //获取时间
+      exdate.setTime(exdate.getTime() + 24 * 60 * 60 * 1000 * exdays); //保存的天数
+      //字符串拼接cookie
+      window.document.cookie = "userName" + "=" + c_name + ";path=/;expires=" + exdate.toGMTString();
+      window.document.cookie = "userPwd" + "=" + c_pwd + ";path=/;expires=" + exdate.toGMTString();
+    },
+    clearCookie: function () {
+      this.setCookie("", "", -1); //修改2值都为空，天数为负1天就好了
+    },
     //执行等六
     async handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           console.log("store: %o", this.$store);
           console.log("loginForm: %o", this.loginForm);
+          if (this.loginForm.rememberme) {
+            console.log("记录密码");
+            Cookies.set("password", this.loginForm.password, { expires: 10 });
+            Cookies.set('rememberMe', this.loginForm.rememberme, { expires: 10 });
+            Cookies.set("username", this.loginForm.username, { expires: 10 });
+          } else {
+            console.log("清空密码");
+            Cookies.remove("username");
+            Cookies.remove("password");
+            Cookies.remove('rememberme');
+          }
           this.$store
             .dispatch("user/login", this.loginForm)
             .then(() => {
@@ -130,7 +171,7 @@ export default {
     handleClose() {
       console.log("原生handleClose");
       this.$store.commit('login/SET_VISIBLE', false)
-    }
+    },
   },
   computed: {
     visible: {

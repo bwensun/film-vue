@@ -3,14 +3,15 @@ import { Notification, MessageBox, Message } from "element-ui";
 import store from "@/store";
 import { getToken } from "@/utils/auth";
 
-axios.defaults.headers["Content-Type"] = "application/json;charset=utf-8";
+// axios.defaults.headers["Content-Type"] = "application/json;charset=utf-8";
 
 //配置axios默认实例
 const service = axios.create({
   // axios中请求配置有baseURL选项，表示请求URL公共部分
   baseURL: "http://117.50.173.34:9090/",
   // 超时
-  timeout: 10000
+  timeout: 10000,
+  headers: { "X-Custom-Header": "foobar" }
 });
 
 // request拦截器
@@ -35,7 +36,8 @@ service.interceptors.response.use(
     // 未设置状态码则默认成功状态
     const code = res.data.code || 200;
     // 获取错误信息
-
+    console.log(`错误码是${code}`);
+    console.log(`响应是${res}`);
     const msg = res.data.message;
     if (code === 401) {
       MessageBox.confirm(

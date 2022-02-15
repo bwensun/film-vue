@@ -29,7 +29,7 @@ export default {
       return state.user;
     },
     token: state => {
-      return state.token;
+      return state.user.token;
     }
   },
   mutations: {
@@ -46,6 +46,7 @@ export default {
 
   actions: {
     // 获取验证码
+    //这个函数谁调用的？？？？？？
     async getCaptcha({ commit }, captcahDTO) {
       const captcha = await getCaptcha(captcahDTO);
       console.log(captcha);
@@ -59,11 +60,12 @@ export default {
       commit("SET_USER", userInfo);
       console.log("user: %o", state.user);
     },
-    //注册
+    //登录
     async login({ commit }, loginDTO) {
       const loginResult = await login(loginDTO);
       console.log("login result: %o", loginResult);
-      console.log("login result: %s", loginResult.data);
+      console.log("头部值" + loginResult.data);
+      localStorage.setItem("loginResult", loginResult.data);
       const userResult = await getUserInfo(loginResult.data);
       console.log("user: %o", userResult);
       commit("SET_USER", userResult.data);

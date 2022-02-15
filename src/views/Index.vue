@@ -28,7 +28,7 @@
           </el-col>
           <el-col :span="10" :push="0" class="header-banner-right">
             <div class="search">
-              <el-input v-model="serachValue" placeholder="搜索" :disabled="true"></el-input>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <el-input v-model="serachValue" placeholder="搜索"></el-input>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <el-button type="primary" size="medium" icon="el-icon-search">搜索</el-button>
             </div>
             <div class="login_register_button" v-show="!userShow">
@@ -36,12 +36,25 @@
               <el-button type="text" class="register_button" @click="register">快速注册</el-button>
             </div>
             <div class="already-login" v-show="userShow">
-              <div>
+              <div class="user">
                 <el-avatar
                   shape="square"
                   :size="36"
                   v-bind:src="user.avatar || 'http://image.bowensun.top/avatar%E5%AD%99%E5%8D%9A%E6%96%87.webp'"
                 ></el-avatar>
+                <el-dropdown trigger="click" @command="handleCommand">
+                  <div class="dropdown">
+                    <h3>{{ user.username }}</h3>
+                    <i class="el-icon-arrow-down el-icon--right"></i>
+                  </div>
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item command="1">个人主页</el-dropdown-item>
+                    <el-dropdown-item command="2">我的订单</el-dropdown-item>
+                    <el-dropdown-item command="3">我的钱包</el-dropdown-item>
+                    <el-dropdown-item command="4">账户管理</el-dropdown-item>
+                    <el-dropdown-item command="layout" divided>退出</el-dropdown-item>
+                  </el-dropdown-menu>
+                </el-dropdown>
               </div>
             </div>
           </el-col>
@@ -59,7 +72,7 @@
               <div class="main">
                 <ul class="content-ul-item">
                   <el-divider></el-divider>
-                  <li class="post-li" v-for="film in this.filmList" :key="film.id">
+                  <li class="post-li" v-for="film in filmList" :key="film.id">
                     <div class="content-item">
                       <div class="item-cover">
                         <img v-bind:src="film.cover" height="200px" v-bind:alt="film.fileName" />
@@ -91,9 +104,13 @@
           </el-row>
           <el-pagination
             background
-            layout="prev, pager, next"
-            :total="50"
+            layout="total, sizes, prev, pager, next, jumper"
+            :page-sizes="[5, 8, 10, 15, 20]"
+            :page-size="pageSize"
+            :pager-count="5"
+            :total="total"
             @current-change="changeContent"
+            @size-change="sizeChange"
           ></el-pagination>
         </el-main>
         <el-aside width="400px">
@@ -131,21 +148,21 @@
           </div>
         </el-aside>
       </el-container>
+      <backTop :visibility-height="20" :bottom="60" :right="60"></backTop>
       <baseFooter></baseFooter>
     </el-container>
-
     <login></login>
     <register ref="register"></register>
   </div>
 </template>
 
 <script>
-import { getFilmList, getActivityRank } from "@/api/index";
+import { getFilmList, getActivityRank, getCaptcha, register, login, getUserInfo, layout } from "@/api/index";
 import Login from "@/components/Login";
 import Register from "@/components/register";
 import Greeting from "@/components/greeting";
 import BaseFooter from "@/components/baseFooter";
-
+import BackTop from "@/components/BackTop";
 
 export default {
   name: "Index",
@@ -153,38 +170,59 @@ export default {
     Login,
     Register,
     Greeting,
-    BaseFooter
+    BaseFooter,
+    BackTop,
   },
   data() {
     return {
       filmList: null,
       userActivityRank: null,
       // userShow: false,
-      serachValue: null
+      serachValue: null,
+      //
+      // pagerCount: 5,
+      pageNumber: 1,
+      pageSize: 5,
+      total: 10,
     };
   },
   async created() {
     console.log("初始化...");
     this.getContent();
     this.getActivityRank();
+    if (localStorage.getItem('loginResult')) {
+      // this.$store.commit("login/SET_VISIBLE", true);
+      this.userShow = true
+      const token = localStorage.getItem('loginResult')
+      const userResult = await getUserInfo(token)
+      // console.dir("66666" + this.user.username);
+      console.log('666666666' + userResult.data);
+      this.$store.commit("user/SET_USER", userResult.data)
+    }
   },
   computed: {
     user: {
       get() {
         return this.$store.getters["user/user"];
-      }
+      }//get是默认方法，是不是可以不写
     },
     userShow: {
       get() {
         return this.$store.getters["loginAndregister/userShow"]
+      },
+      set(b) {
+        this.$store.commit("loginAndregister/SET_USERSHOW", b)
       }
-    }
+    },
   },
   methods: {
     async getContent() {
-      getFilmList(1, 10).then(response => {
+      getFilmList(this.pageNumber, this.pageSize).then(response => {
         console.log(response.data.records);
         this.filmList = response.data.records;
+        this.total = response.data.total;
+        // const heard = localStorage.getItem("loginResult");
+        // console.log("toubushi66666666666" + heard);
       });
     },
     async getActivityRank() {
@@ -207,9 +245,33 @@ export default {
     // },
     changeContent(num) {
       console.log(num)
+      console.log(this.filmList);
+      //点击时向后端发送需要显示的页面内容信息
+      // const showData = new Object();
+      // showData.pageNumber=this.pageNumber,
+      // showData.pageSize=this.pageSize,
+      // showData.page=num,
+      this.pageNumber = num;
+      this.getContent();
+    },
+    sizeChange(num) {
+      this.pageSize = num;
+      this.getContent();
     },
     handleSelect() {
       console.log("handleSelect - 跳转界面");
+    },
+    handleCommand(command) {
+      this[command]()
+      console.log(command)
+    },
+    async layout() {
+      const token = localStorage.getItem('loginResult')
+      console.log("789456655" + token)
+      await layout(token)
+      localStorage.clear();
+      this.$store.commit("user/SET_USER", {})
+      this.$store.commit("loginAndregister/SET_USERSHOW", false)
     }
   }
 };
@@ -257,7 +319,7 @@ ul {
 }
 
 .login_button {
-  background-color: #efefef;
+  background-color: #efefef !important;
   color: #333333;
   font-size: 13px;
   font-weight: 200;
@@ -284,7 +346,7 @@ ul {
 .main {
   margin-top: 80px;
   background: white;
-  height: 1000px;
+  /* height: 1000px; */
   border-radius: 5px;
   padding: 0px !important;
 }
@@ -425,5 +487,22 @@ ul {
 }
 .span-right {
   text-align: left;
+}
+.user {
+  display: flex;
+  width: 120px;
+  justify-content: space-around;
+  align-items: center;
+}
+/* .user:first-child {
+  display: flex;
+  align-content: center;
+} */
+.dropdown {
+  display: grid;
+  grid-template-columns: 80% 20%;
+  align-items: center;
+  cursor: pointer;
+  color: #409eff;
 }
 </style>
