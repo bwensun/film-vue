@@ -32,8 +32,8 @@
               <el-button type="primary" size="medium" icon="el-icon-search">搜索</el-button>
             </div>
             <div class="login_register_button" v-show="!userShow">
-              <el-button type="text" class="login_button" @click="login">登录</el-button>
-              <el-button type="text" class="register_button" @click="register">快速注册</el-button>
+              <el-button type="primary" class="head_button" @click="login">登录</el-button>
+              <el-button type="primary" class="head_button" @click="register">快速注册</el-button>
             </div>
             <div class="already-login" v-show="userShow">
               <div class="user">
@@ -261,26 +261,26 @@ ul {
   background-color: rgb(245, 245, 245) !important;
 }
 
-.login_button {
+/* .login_button {
   background-color: #efefef !important;
   color: #333333;
   font-size: 13px;
   font-weight: 200;
   width: 60px;
-}
-.register_button {
+} */
+/* .register_button {
   background-color: #efefef;
   color: #333333;
   font-size: 13px;
   width: 80px;
-}
-.login_button:focus,
-.register_button:focus,
-.register_button:hover,
-.login_button:hover {
+} */
+/* .head_button {
+  background-color: ;
+} */
+/* .head_button:focus,
+.head_button:hover {
   background-color: #efefef;
-  color: #333333;
-}
+} */
 .neck {
   background-color: white;
   height: 40px;
