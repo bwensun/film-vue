@@ -60,7 +60,7 @@ export function getUserInfo(token) {
 export function layout(token) {
   return axios({
     method: "DELETE",
-    url: "http://117.50.173.34:9090/logout",
+    url: "https://api.bowensun.top/logout",
     headers: { Authorization: "Bearer" + " " + token }
   });
 }
