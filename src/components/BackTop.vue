@@ -20,7 +20,7 @@ export default {
     },
     handleScroll() {
       let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
-      console.log(scrollTop);
+      // console.log(scrollTop);
       if (scrollTop >= 60) {
         this.isShow = true
       } else {

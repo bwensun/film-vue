@@ -13,9 +13,10 @@
                 <div class="header-menu">
                   <el-menu
                     :default-active="'1'"
-                    text-color="#333333"
-                    background-color="rgb(245,245,245)"
                     class="header-menu-list"
+                    background-color="#F5F5F5"
+                    text-color="#545c64"
+                    active-text-color="#ffd04b"
                     mode="horizontal"
                     @select="handleSelect"
                   >
@@ -32,8 +33,8 @@
               <el-button type="primary" size="medium" icon="el-icon-search">搜索</el-button>
             </div>
             <div class="login_register_button" v-show="!userShow">
-              <el-button type="text" class="login_button" @click="login">登录</el-button>
-              <el-button type="text" class="register_button" @click="register">快速注册</el-button>
+              <el-button type="primary" class="head_button" @click="login">登录</el-button>
+              <el-button type="primary" class="head_button" @click="register">快速注册</el-button>
             </div>
             <div class="already-login" v-show="userShow">
               <div class="user">
@@ -67,51 +68,7 @@
       </el-header>
       <el-container>
         <el-main>
-          <el-row>
-            <el-col :span="20" :offset="3">
-              <div class="main">
-                <ul class="content-ul-item">
-                  <el-divider></el-divider>
-                  <li class="post-li" v-for="film in filmList" :key="film.id">
-                    <div class="content-item">
-                      <div class="item-cover">
-                        <img v-bind:src="film.cover" height="200px" v-bind:alt="film.fileName" />
-                      </div>
-                      <div class="item-right">
-                        <div class="item-data">
-                          <h2 class="item-title">{{ film.filmName }}</h2>
-                          <div class="item-desc font-base">
-                            <p align="left">{{ film.introduction }}</p>
-                          </div>
-                          <div class="item-data-other">
-                            <ul class="item-data-other-list">
-                              <li class="item-director">{{ film.director }}</li>
-                              <li class="item-date">
-                                {{ film.screenDate }}&nbsp;{{
-                                  film.screenLocation
-                                }}
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <el-divider></el-divider>
-                  </li>
-                </ul>
-              </div>
-            </el-col>
-          </el-row>
-          <el-pagination
-            background
-            layout="total, sizes, prev, pager, next, jumper"
-            :page-sizes="[5, 8, 10, 15, 20]"
-            :page-size="pageSize"
-            :pager-count="5"
-            :total="total"
-            @current-change="changeContent"
-            @size-change="sizeChange"
-          ></el-pagination>
+          <router-view></router-view>
         </el-main>
         <el-aside width="400px">
           <div class="aside">
@@ -163,6 +120,7 @@ import Register from "@/components/register";
 import Greeting from "@/components/greeting";
 import BaseFooter from "@/components/baseFooter";
 import BackTop from "@/components/BackTop";
+
 
 export default {
   name: "Index",
@@ -243,21 +201,7 @@ export default {
     //   console.log(this.userShow);
     //   this.$store.commit("loginAndregister/SET_USERSHOW", true);
     // },
-    changeContent(num) {
-      console.log(num)
-      console.log(this.filmList);
-      //点击时向后端发送需要显示的页面内容信息
-      // const showData = new Object();
-      // showData.pageNumber=this.pageNumber,
-      // showData.pageSize=this.pageSize,
-      // showData.page=num,
-      this.pageNumber = num;
-      this.getContent();
-    },
-    sizeChange(num) {
-      this.pageSize = num;
-      this.getContent();
-    },
+
     handleSelect() {
       console.log("handleSelect - 跳转界面");
     },
@@ -318,26 +262,26 @@ ul {
   background-color: rgb(245, 245, 245) !important;
 }
 
-.login_button {
+/* .login_button {
   background-color: #efefef !important;
   color: #333333;
   font-size: 13px;
   font-weight: 200;
   width: 60px;
-}
-.register_button {
+} */
+/* .register_button {
   background-color: #efefef;
   color: #333333;
   font-size: 13px;
   width: 80px;
-}
-.login_button:focus,
-.register_button:focus,
-.register_button:hover,
-.login_button:hover {
+} */
+/* .head_button {
+  background-color: ;
+} */
+/* .head_button:focus,
+.head_button:hover {
   background-color: #efefef;
-  color: #333333;
-}
+} */
 .neck {
   background-color: white;
   height: 40px;
@@ -360,6 +304,10 @@ ul {
 }
 .item-right {
   width: 78%;
+  cursor: pointer;
+}
+.item-right:hover {
+  color: #409eff;
 }
 .item-data-other-list {
   height: 60px;

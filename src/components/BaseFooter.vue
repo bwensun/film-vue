@@ -50,6 +50,19 @@
                 <span style="line-height: 36px">跑跑宝宝</span>
               </div>
             </li>
+            <li>
+              <div class="footer-3">
+                <el-avatar
+                  shape="square"
+                  fit="scale-down"
+                  :size="36"
+                  :src="
+                    '../../static/img/dfb4c905d545549039abe6f02bdffd64_1.jpg'
+                  "
+                ></el-avatar>&nbsp; &nbsp;
+                <span style="line-height: 36px">回字的四种写法</span>
+              </div>
+            </li>
           </ul>
         </div>
       </el-col>
@@ -79,7 +92,7 @@ export default {
 <style scoped>
 .el-footer {
   width: 100%;
-  height: 280px !important;
+  height: 30% !important;
   padding: 0;
   background-color: #212121;
 }
@@ -97,6 +110,6 @@ export default {
   align-content: center;
 }
 .footer-bottom {
-  padding-top: 90px;
+  /* padding-top: 90px; */
 }
 </style>
