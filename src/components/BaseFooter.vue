@@ -31,7 +31,7 @@
                   shape="square"
                   :size="36"
                   :src="
-                    'http://image.bowensun.top/avatar%E5%AD%99%E5%8D%9A%E6%96%87.webp'
+                    'https://picture.bowensun.top/avatar%E5%AD%99%E5%8D%9A%E6%96%87.webp'
                   "
                 ></el-avatar>&nbsp; &nbsp;
                 <span style="line-height: 36px">霸道学长孙博文</span>

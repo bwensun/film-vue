@@ -41,7 +41,7 @@
                 <el-avatar
                   shape="square"
                   :size="36"
-                  v-bind:src="user.avatar || 'http://image.bowensun.top/avatar%E5%AD%99%E5%8D%9A%E6%96%87.webp'"
+                  v-bind:src="user.avatar || 'https://picture.bowensun.top/avatar%E5%AD%99%E5%8D%9A%E6%96%87.webp'"
                 ></el-avatar>
                 <el-dropdown trigger="click" @command="handleCommand">
                   <div class="dropdown">
@@ -94,7 +94,7 @@
                     <div class="active-rank-right">
                       <el-image
                         style="width: 20px; height: 20px"
-                        :src="'http://image.bowensun.top/iconcoin.svg'"
+                        :src="'https://picture.bowensun.top/iconcoin.svg'"
                       ></el-image>
                       &nbsp;&nbsp;{{ activity.activity }}
                     </div>

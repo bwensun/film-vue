@@ -37,7 +37,7 @@
         <a href="http://www.baidu.com">
           <el-image
             style="width: 20px; height: 20px"
-            :src="'http://image.bowensun.top/iconwechat.svg'"
+            :src="'https://picture.bowensun.top/iconwechat.svg'"
           ></el-image>
         </a>
       </div>
