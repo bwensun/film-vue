@@ -14,6 +14,7 @@
         <el-input
           type="password"
           placeholder="请输入密码"
+          show-password
           v-model="loginForm.password"
           autocomplete="off"
           @keyup.enter.native="handleLogin"

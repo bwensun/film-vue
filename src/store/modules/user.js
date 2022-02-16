@@ -58,7 +58,7 @@ export default {
       console.log("register result: %o", registerResult);
       const userInfo = await getUserInfo(registerResult.data);
       commit("SET_USER", userInfo);
-      console.log("user: %o", state.user);
+      // console.log("user: %o", state.user);
     },
     //登录
     async login({ commit }, loginDTO) {

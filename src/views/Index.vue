@@ -3,10 +3,10 @@
     <el-container class="header">
       <el-header>
         <el-row type="flex">
-          <el-col :span="10" :offset="3">
+          <el-col :span="8" :offset="2">
             <div class="header-banner">
               <div class="header-banner-left">
-                <div class="header-logo">
+                <div class="header-logo" @click="goHome">
                   <el-image style="width: 100px; height: 100px" :src="require('@/assets/logo.png')"></el-image>
                   <h1 style="line-height: 49px">Film</h1>
                 </div>
@@ -27,10 +27,16 @@
               </div>
             </div>
           </el-col>
-          <el-col :span="10" :push="0" class="header-banner-right">
+          <el-col :span="12" :push="0" class="header-banner-right">
             <div class="search">
-              <el-input v-model="serachValue" placeholder="搜索"></el-input>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <el-button type="primary" size="medium" icon="el-icon-search">搜索</el-button>
+              <el-input v-model="serachValue" placeholder="搜索" clearable>
+                <el-select v-model="select" slot="prepend" placeholder="请选择">
+                  <el-option label="电影名" value="1"></el-option>
+                  <el-option label="导演" value="2"></el-option>
+                  <el-option label="演员" value="3"></el-option>
+                </el-select>
+                <el-button slot="append" icon="el-icon-search"></el-button>
+              </el-input>
             </div>
             <div class="login_register_button" v-show="!userShow">
               <el-button type="primary" class="head_button" @click="login">登录</el-button>
@@ -138,6 +144,7 @@ export default {
       // userShow: false,
       serachValue: null,
       //
+      select: '',
       // pagerCount: 5,
       pageNumber: 1,
       pageSize: 5,
@@ -216,6 +223,10 @@ export default {
       localStorage.clear();
       this.$store.commit("user/SET_USER", {})
       this.$store.commit("loginAndregister/SET_USERSHOW", false)
+    },
+    goHome() {
+      console.log('9999');
+      this.$router.push(`/`)
     }
   }
 };
@@ -236,6 +247,7 @@ ul {
 .header-logo {
   display: flex;
   align-content: center;
+  cursor: pointer;
 }
 .el-header {
   background-color: rgb(245, 245, 245);
