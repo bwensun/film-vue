@@ -2,22 +2,12 @@
   "name": "myvue",
   "version": "1.0.0",
   "description": "Vue测试项目",
-  "author": "GitHub Inc.",
+  "author": "郑建雄 <bwensun@foxmail.com>",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
-    "build": "node build/build.js",
-    "lint": "eslint '**/*.js'",
-    "postlint": "npm-template-check",
-    "template-copy": "npm-template-copy --force",
-    "lintfix": "npm run lint -- --fix",
-    "preversion": "npm test",
-    "postversion": "npm publish",
-    "prepublishOnly": "git push origin --follow-tags",
-    "snap": "tap",
-    "test": "tap",
-    "posttest": "npm run lint"
+    "build": "node build/build.js"
   },
   "dependencies": {
     "axios": "^0.21.1",
@@ -25,7 +15,6 @@
     "js-cookie": "^2.2.1",
     "vue": "^2.5.2",
     "vue-axios": "^3.2.4",
-    "vue-cookies": "^1.7.4",
     "vuex": "^3.6.2"
   },
   "devDependencies": {
@@ -69,18 +58,12 @@
     "webpack-merge": "^4.1.0"
   },
   "engines": {
-    "node": "^12.13.0 || ^14.15.0 || >=16"
+    "node": ">= 6.0.0",
+    "npm": ">= 3.0.0"
   },
   "browserslist": [
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ],
-  "files": [
-    "bin",
-    "lib"
-  ],
-  "templateOSS": {
-    "version": "2.7.1"
-  }
+  ]
 }

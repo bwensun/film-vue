@@ -9,7 +9,7 @@ import VueAxios from "vue-axios";
 import Vuex from "vuex";
 import store from "./store";
 import ElementUI from "element-ui";
-import vueCookie from "vue-cookies";
+// import vueCookie from "vue-cookies";
 import "element-ui/lib/theme-chalk/index.css";
 import "./assets/icon/iconfont.css";
 import "./assets/css/base.css";
@@ -20,7 +20,7 @@ Vue.use(VueRouter);
 Vue.use(ElementUI);
 Vue.use(VueAxios, axios);
 Vue.use(Vuex);
-Vue.use(vueCookie);
+// Vue.use(vueCookie);
 /* eslint-disable no-new */
 
 new Vue({

@@ -165,8 +165,11 @@ export default {
           this.time--;
         } else {
           clearInterval(timer);
-          this.returnhome();
+          //初始化注册成功页显示
+          this.register = true;
+          this.success = false;
           this.time = 5;
+          this.returnhome();
         }
       }, 1000);
     },
@@ -207,6 +210,7 @@ export default {
     returnhome() {
       this.visible = false;
       this.displayUser();
+      //注册成功后使用获得信息登录账户
       this.$store.dispatch("user/login", this.user);
     },
     handleClose() {
