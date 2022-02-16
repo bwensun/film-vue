@@ -13,9 +13,10 @@
                 <div class="header-menu">
                   <el-menu
                     :default-active="'1'"
-                    text-color="#333333"
-                    background-color="rgb(245,245,245)"
                     class="header-menu-list"
+                    background-color="#F5F5F5"
+                    text-color="#545c64"
+                    active-text-color="#ffd04b"
                     mode="horizontal"
                     @select="handleSelect"
                   >
