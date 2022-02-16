@@ -67,51 +67,7 @@
       </el-header>
       <el-container>
         <el-main>
-          <el-row>
-            <el-col :span="20" :offset="3">
-              <div class="main">
-                <ul class="content-ul-item">
-                  <el-divider></el-divider>
-                  <li class="post-li" v-for="film in filmList" :key="film.id">
-                    <div class="content-item">
-                      <div class="item-cover">
-                        <img v-bind:src="film.cover" height="200px" v-bind:alt="film.fileName" />
-                      </div>
-                      <div class="item-right">
-                        <div class="item-data">
-                          <h2 class="item-title">{{ film.filmName }}</h2>
-                          <div class="item-desc font-base">
-                            <p align="left">{{ film.introduction }}</p>
-                          </div>
-                          <div class="item-data-other">
-                            <ul class="item-data-other-list">
-                              <li class="item-director">{{ film.director }}</li>
-                              <li class="item-date">
-                                {{ film.screenDate }}&nbsp;{{
-                                  film.screenLocation
-                                }}
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <el-divider></el-divider>
-                  </li>
-                </ul>
-              </div>
-            </el-col>
-          </el-row>
-          <el-pagination
-            background
-            layout="total, sizes, prev, pager, next, jumper"
-            :page-sizes="[5, 8, 10, 15, 20]"
-            :page-size="pageSize"
-            :pager-count="5"
-            :total="total"
-            @current-change="changeContent"
-            @size-change="sizeChange"
-          ></el-pagination>
+          <router-view></router-view>
         </el-main>
         <el-aside width="400px">
           <div class="aside">
@@ -163,6 +119,7 @@ import Register from "@/components/register";
 import Greeting from "@/components/greeting";
 import BaseFooter from "@/components/baseFooter";
 import BackTop from "@/components/BackTop";
+
 
 export default {
   name: "Index",
@@ -243,21 +200,7 @@ export default {
     //   console.log(this.userShow);
     //   this.$store.commit("loginAndregister/SET_USERSHOW", true);
     // },
-    changeContent(num) {
-      console.log(num)
-      console.log(this.filmList);
-      //点击时向后端发送需要显示的页面内容信息
-      // const showData = new Object();
-      // showData.pageNumber=this.pageNumber,
-      // showData.pageSize=this.pageSize,
-      // showData.page=num,
-      this.pageNumber = num;
-      this.getContent();
-    },
-    sizeChange(num) {
-      this.pageSize = num;
-      this.getContent();
-    },
+
     handleSelect() {
       console.log("handleSelect - 跳转界面");
     },
@@ -360,6 +303,10 @@ ul {
 }
 .item-right {
   width: 78%;
+  cursor: pointer;
+}
+.item-right:hover {
+  color: #409eff;
 }
 .item-data-other-list {
   height: 60px;
