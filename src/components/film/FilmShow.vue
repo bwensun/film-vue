@@ -84,8 +84,9 @@ export default {
 		},
 		//跳转电影详情页
 		goDetailsPage(id) {
-			console.log(id);
-			this.$$emit()
+			console.log('9999999999' + id);
+			//修改路由
+			this.$router.push(`/film/${id}`)
 		},
 
 		changeContent(num) {
