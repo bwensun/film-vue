@@ -41,6 +41,7 @@ export default {
 <style scoped>
 a {
 	text-decoration: none;
+	color: rgb(96, 98, 102);
 }
 a:active,
 a:visited {

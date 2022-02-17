@@ -2,7 +2,7 @@ import axios from "axios";
 import { Notification, MessageBox, Message } from "element-ui";
 import store from "@/store";
 import { getToken } from "@/utils/auth";
-import JSONbig from "json-bigint";
+var JSONbig = require("json-bigint");
 
 // axios.defaults.headers["Content-Type"] = "application/json;charset=utf-8";
 
@@ -12,9 +12,9 @@ const service = axios.create({
   baseURL: "https://api.bowensun.top/",
   // 超时
   timeout: 3000,
-  headers: { "X-Custom-Header": "foobar" }
+  headers: { "X-Custom-Header": "foobar" },
   // transformResponse: [
-  //   function(data) {
+  //   function(data) {np
   //     const json = JSONbig({
   //       storeAsString: true
   //     });
@@ -23,6 +23,19 @@ const service = axios.create({
 
   //   }
   // ]
+  transformResponse: [
+    function(data) {
+      try {
+        // 如果转换成功则返回转换的数据结果
+        return JSONbig.parse(data);
+      } catch (err) {
+        // 如果转换失败，则包装为统一数据格式并返回
+        return {
+          data
+        };
+      }
+    }
+  ]
 });
 
 // request拦截器
