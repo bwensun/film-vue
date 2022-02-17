@@ -13,7 +13,9 @@ import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import "./assets/icon/iconfont.css";
 import "./assets/css/base.css";
+import "./assets/symbolicon/iconfont.css";
 require("./assets/icon/iconfont.js");
+import "./assets/symbolicon/iconfont";
 
 Vue.config.productionTip = false;
 Vue.use(VueRouter);

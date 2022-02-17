@@ -49,7 +49,7 @@
 </template>
 
 <script type="text/javascript">
-import { getFilmList, getActivityRank, getCaptcha, register, login, getUserInfo, layout } from "@/api/index";
+import { getFilmList, getFilmDetails } from "@/api/index";
 export default {
 	name: "",
 	data() {
@@ -83,10 +83,16 @@ export default {
 			});
 		},
 		//跳转电影详情页
-		goDetailsPage(id) {
-			console.log('9999999999' + id);
+		async goDetailsPage(id) {
+			// console.log('9999999999' + id);
+			// this.$store.dispatch("film/getFilmDetail", id);
 			//修改路由
-			this.$router.push(`/film/${id}`)
+			getFilmDetails(id).then(response => {
+				const film = response.data.data
+				console.log(response.data.data);
+				this.$store.commit("film/SET_FILM", film)
+				this.$router.push(`/film/${id}`);
+			})
 		},
 
 		changeContent(num) {

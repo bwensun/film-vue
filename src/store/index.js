@@ -4,6 +4,7 @@ import user from "./modules/user";
 import login from "./modules/login";
 import register from "./modules/register";
 import loginAndregister from "./modules/loginAndregister";
+import film from "./modules/film";
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
@@ -11,7 +12,8 @@ const store = new Vuex.Store({
     user,
     login,
     register,
-    loginAndregister
+    loginAndregister,
+    film
   }
 });
 

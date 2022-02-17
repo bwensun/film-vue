@@ -2,6 +2,7 @@ import axios from "axios";
 import { Notification, MessageBox, Message } from "element-ui";
 import store from "@/store";
 import { getToken } from "@/utils/auth";
+import JSONbig from "json-bigint";
 
 // axios.defaults.headers["Content-Type"] = "application/json;charset=utf-8";
 
@@ -12,6 +13,15 @@ const service = axios.create({
   // 超时
   timeout: 3000,
   headers: { "X-Custom-Header": "foobar" }
+  // transformResponse: [
+  //   function(data) {
+  //     const json = JSONbig({
+  //       storeAsString: true
+  //     });
+  //     const res = json.parse(data);
+  //     return res;
+  //   }
+  // ]
 });
 
 // request拦截器

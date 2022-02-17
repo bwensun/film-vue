@@ -1,0 +1,16 @@
+{
+  "id": "3188138",
+  "name": "film",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "490259",
+      "name": "launch",
+      "font_class": "launch",
+      "unicode": "ebe4",
+      "unicode_decimal": 60388
+    }
+  ]
+}

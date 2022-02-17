@@ -64,3 +64,10 @@ export function layout(token) {
     headers: { Authorization: "Bearer" + " " + token }
   });
 }
+//获取电影详情
+export function getFilmDetails(id) {
+  return axios({
+    method: "POST",
+    url: "https://api.bowensun.top/film/" + id
+  });
+}
