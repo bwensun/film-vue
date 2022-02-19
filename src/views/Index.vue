@@ -55,7 +55,7 @@
                     <i class="el-icon-arrow-down el-icon--right"></i>
                   </div>
                   <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item command="1">个人主页</el-dropdown-item>
+                    <el-dropdown-item command="usercenter">个人主页</el-dropdown-item>
                     <el-dropdown-item command="2">我的订单</el-dropdown-item>
                     <el-dropdown-item command="3">我的钱包</el-dropdown-item>
                     <el-dropdown-item command="4">账户管理</el-dropdown-item>
@@ -213,12 +213,20 @@ export default {
       console.log("handleSelect - 跳转界面");
     },
     handleCommand(command) {
-      this[command]()
-      console.log(command)
+      this[command]();
+      // console.log(command)
     },
+    async usercenter() {
+
+      const id = this.user.id
+      console.log(id);
+      this.$router.push(`/user/${id}`)
+    },
+
+
     async layout() {
       const token = localStorage.getItem('loginResult')
-      console.log("789456655" + token)
+      // console.log("789456655" + token)
       await layout(token)
       localStorage.clear();
       this.$store.commit("user/SET_USER", {})

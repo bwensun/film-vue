@@ -3,6 +3,20 @@ import Router from "vue-router";
 
 import FilmShow from "../components/film/FilmShow.vue";
 import DetailsPage from "../components/film/DetailsPage.vue";
+import UserCenter from "../components/user/UserCenter.vue";
+
+import * as userRoutes from "./user";
+
+const _routes = [];
+
+for (const key in userRoutes) {
+  const value = userRoutes[key];
+  console.log(value);
+  _routes.push({
+    path: "/",
+    component: value
+  });
+}
 
 const routes = [
   {
@@ -12,6 +26,10 @@ const routes = [
   {
     path: "/film/:id",
     component: DetailsPage
+  },
+  {
+    path: "/user/:id",
+    component: UserCenter
   }
 ];
 

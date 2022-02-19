@@ -12,10 +12,10 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 export default {
   name: "test",
-  data() {}
+  data() { }
 };
 </script>
 

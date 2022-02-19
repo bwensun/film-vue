@@ -5,7 +5,7 @@
 				<div class="main">
 					<ul class="content-ul-item">
 						<el-divider></el-divider>
-						<li class="post-li" v-for="film in filmList" :key="film.id">
+						<li class="post-li" v-for="(film, index) in filmList" :key="index">
 							<div class="content-item">
 								<div class="item-cover">
 									<img v-bind:src="film.cover" height="200px" v-bind:alt="film.fileName" />
