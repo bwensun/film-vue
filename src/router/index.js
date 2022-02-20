@@ -11,9 +11,10 @@ const _routes = [];
 
 for (const key in userRoutes) {
   const value = userRoutes[key];
+  console.log("777777" + value.name);
   console.log(value);
   _routes.push({
-    path: "/",
+    path: `${value.name}`,
     component: value
   });
 }
@@ -29,7 +30,9 @@ const routes = [
   },
   {
     path: "/user/:id",
-    component: UserCenter
+    component: UserCenter,
+    children: _routes,
+    redirect: "/user/:id/home"
   }
 ];
 

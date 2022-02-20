@@ -1,8 +1,10 @@
-<template></template>
+<template>
+	<div class="home">12312312</div>
+</template>
 
 <script type="text/javascript">
 export default {
-	name: "moment",
+	name: "share",
 	data() {
 		return {
 

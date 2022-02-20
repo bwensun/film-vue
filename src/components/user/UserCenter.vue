@@ -35,52 +35,47 @@
 				</div>
 			</div>
 			<div class="user_top_nav">
-				<!-- <el-menu
+				<el-menu
 					:default-active="activeIndex"
 					class="el-menu-demo"
 					mode="horizontal"
 					background-color="#fff"
 					@select="handleSelect"
 				>
-					<el-menu-item index="主页">主页</el-menu-item>
-					<el-menu-item index="文章">
-						<template slot="title">文章</template>
+					<el-menu-item index="home">主页</el-menu-item>
+					<el-menu-item index="want">
+						<template slot="title">想看</template>
 					</el-menu-item>
-					<el-menu-item index="专栏">
-						<template slot="title">专栏</template>
+					<el-menu-item index="record">
+						<template slot="title">记录</template>
 					</el-menu-item>
-					<el-menu-item index="学习">
-						<template slot="title">学习</template>
+					<el-menu-item index="share">
+						<template slot="title">分享</template>
 					</el-menu-item>
-					<el-menu-item index="说说">
-						<template slot="title">说说</template>
+					<el-menu-item index="surround">
+						<template slot="title">圈子</template>
 					</el-menu-item>
-					<el-menu-item index="设置">设置</el-menu-item>
-				</el-menu>-->
-				<!-- <span class="nav_right">
-					<a href>我的关注</a>
-					<a href>我的粉丝</a>
-				</span>-->
-				<div>导航按钮组件</div>
-				<div>关注数显示组件</div>
+					<el-menu-item index="set">设置</el-menu-item>
+				</el-menu>
 			</div>
 		</div>
 		<div class="container">
 			整页组件
 			<router-view></router-view>
 		</div>
-		<el-drawer title="我是标题" :visible="false" direction="btt">
+		<el-drawer title="切换皮肤" :visible="false" direction="btt">
 			<span>我来啦!</span>
 		</el-drawer>
 	</div>
 </template>
 
 <script type="text/javascript">
+
 export default {
 	name: "UserCenter",
 	data() {
 		return {
-
+			activeIndex: "home"
 		}
 	},
 	components: {
@@ -95,6 +90,9 @@ export default {
 	methods: {
 		handleSelect(key, keyPath) {
 			console.log(key, keyPath);
+			const user = this.$store.getters["user/user"]
+			console.log(user.id);
+			this.$router.push(`/user/${user.id}/${key}`)
 		}
 	},
 }
@@ -143,5 +141,8 @@ export default {
 }
 .nav_right {
 	display: flex;
+}
+.el-menu-demo {
+	width: 100%;
 }
 </style>

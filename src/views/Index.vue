@@ -73,7 +73,7 @@
         </el-row>
       </el-header>
       <el-container>
-        <el-main>
+        <el-main id="main">
           <router-view></router-view>
         </el-main>
         <el-aside width="400px">
@@ -472,5 +472,8 @@ ul {
   align-items: center;
   cursor: pointer;
   color: #409eff;
+}
+#main {
+  overflow: hidden;
 }
 </style>
