@@ -60,7 +60,6 @@
 			</div>
 		</div>
 		<div class="container">
-			整页组件
 			<router-view></router-view>
 		</div>
 		<el-drawer title="切换皮肤" :visible="false" direction="btt">
@@ -89,9 +88,9 @@ export default {
 	},
 	methods: {
 		handleSelect(key, keyPath) {
-			console.log(key, keyPath);
+			// console.log(key, keyPath);
 			const user = this.$store.getters["user/user"]
-			console.log(user.id);
+			// console.log(user.id);
 			this.$router.push(`/user/${user.id}/${key}`)
 		}
 	},
@@ -144,5 +143,8 @@ export default {
 }
 .el-menu-demo {
 	width: 100%;
+}
+.container {
+	padding-top: 20px;
 }
 </style>

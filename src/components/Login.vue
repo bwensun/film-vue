@@ -19,8 +19,8 @@
           autocomplete="off"
           @keyup.enter.native="handleLogin"
         ></el-input>
-        <el-checkbox v-model="loginForm.rememberme">记住密码（10天内自动登录）</el-checkbox>
       </el-form-item>
+      <el-checkbox v-model="checked">记住密码（10天内自动登录）</el-checkbox>
       <div class="font-extra-small login-tip">
         <div>
           <a href="www.baidu.com">忘记密码?</a>
@@ -55,11 +55,11 @@ export default {
   name: "login",
   data: () => ({
     //记住密码
+    checked: true,
     //登录框显示开关
     loginForm: {
       username: "",
       password: "",
-      rememberme: true
     },
     rules: {
       password: [
@@ -113,40 +113,38 @@ export default {
     getCookie() {
       const username = Cookies.get("username");
       const password = Cookies.get("password");
-      const rememberMe = Cookies.get('rememberme')
       this.loginForm = {
         username: username === undefined ? this.loginForm.username : username,
         password: password === undefined ? this.loginForm.password : password,
-        rememberme: rememberMe === undefined ? this.loginForm.rememberme : rememberMe
       };
     },
-    setCookie(c_name, c_pwd, exdays) {
-      var exdate = new Date(); //获取时间
-      exdate.setTime(exdate.getTime() + 24 * 60 * 60 * 1000 * exdays); //保存的天数
-      //字符串拼接cookie
-      window.document.cookie = "userName" + "=" + c_name + ";path=/;expires=" + exdate.toGMTString();
-      window.document.cookie = "userPwd" + "=" + c_pwd + ";path=/;expires=" + exdate.toGMTString();
-    },
-    clearCookie: function () {
-      this.setCookie("", "", -1); //修改2值都为空，天数为负1天就好了
-    },
+    // setCookie(c_name, c_pwd, exdays) {
+    //   var exdate = new Date(); //获取时间
+    //   exdate.setTime(exdate.getTime() + 24 * 60 * 60 * 1000 * exdays); //保存的天数
+    //   //字符串拼接cookie
+    //   window.document.cookie = "userName" + "=" + c_name + ";path=/;expires=" + exdate.toGMTString();
+    //   window.document.cookie = "userPwd" + "=" + c_pwd + ";path=/;expires=" + exdate.toGMTString();
+    // },
+    // clearCookie: function () {
+    //   this.setCookie("", "", -1); //修改2值都为空，天数为负1天就好了
+    // },
     //执行等六
     async handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          console.log("store: %o", this.$store);
+          console.log("5555555555" + this.$store);
           console.log("loginForm: %o", this.loginForm);
-          if (this.loginForm.rememberme) {
+          //如果点击了记住密码，将密码存储到session中
+          if (this.checked) {
             console.log("记录密码");
             Cookies.set("password", this.loginForm.password, { expires: 10 });
-            Cookies.set('rememberMe', this.loginForm.rememberme, { expires: 10 });
             Cookies.set("username", this.loginForm.username, { expires: 10 });
           } else {
             console.log("清空密码");
             Cookies.remove("username");
             Cookies.remove("password");
-            Cookies.remove('rememberme');
           }
+
           this.$store
             .dispatch("user/login", this.loginForm)
             .then(() => {
@@ -154,6 +152,7 @@ export default {
               this.$refs["loginForm"].resetFields();
               this.visible = false;
               this.displayUser();
+              this.$message('登录成功');
             })
             .catch(a => {
               console.log("登录出错!");

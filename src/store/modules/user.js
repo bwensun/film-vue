@@ -66,6 +66,7 @@ export default {
       console.log("login result: %o", loginResult);
       console.log("头部值" + loginResult.data);
       localStorage.setItem("loginResult", loginResult.data);
+      window.sessionStorage.setItem("token", loginResult.data);
       const userResult = await getUserInfo(loginResult.data);
       console.log("user: %o", userResult);
       commit("SET_USER", userResult.data);

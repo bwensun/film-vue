@@ -1,19 +1,7 @@
-@font-face {
-  font-family: "iconfont"; /* Project id 3188138 */
-  src: url('iconfont.woff2?t=1645067149609') format('woff2'),
-       url('iconfont.woff?t=1645067149609') format('woff'),
-       url('iconfont.ttf?t=1645067149609') format('truetype');
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
 }
-
-.iconfont {
-  font-family: "iconfont" !important;
-  font-size: 16px;
-  font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.icon-launch:before {
-  content: "\ebe4";
-}
-

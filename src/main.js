@@ -17,6 +17,8 @@ import "./assets/symbolicon/iconfont.css";
 require("./assets/icon/iconfont.js");
 import "./assets/symbolicon/iconfont";
 
+import iconSy from "./components/icon-symbol.vue";
+
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
 Vue.use(ElementUI);
@@ -24,7 +26,7 @@ Vue.use(VueAxios, axios);
 Vue.use(Vuex);
 // Vue.use(vueCookie);
 /* eslint-disable no-new */
-
+Vue.component("icon-svg", iconSy);
 new Vue({
   el: "#app",
   router: router,

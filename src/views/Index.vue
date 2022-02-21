@@ -126,6 +126,8 @@ import Register from "@/components/register";
 import Greeting from "@/components/greeting";
 import BaseFooter from "@/components/baseFooter";
 import BackTop from "@/components/BackTop";
+import Constant from "@/utils/constant";
+const home = Constant.home;
 
 
 export default {
@@ -153,17 +155,17 @@ export default {
   },
   async created() {
     console.log("初始化...");
-    this.getContent();
+    // this.getContent();
     this.getActivityRank();
-    if (localStorage.getItem('loginResult')) {
-      // this.$store.commit("login/SET_VISIBLE", true);
-      this.userShow = true
-      const token = localStorage.getItem('loginResult')
-      const userResult = await getUserInfo(token)
-      // console.dir("66666" + this.user.username);
-      console.log('666666666' + userResult.data);
-      this.$store.commit("user/SET_USER", userResult.data)
-    }
+    // if (localStorage.getItem('loginResult')) {
+    //   // this.$store.commit("login/SET_VISIBLE", true);
+    //   this.userShow = true
+    //   const token = localStorage.getItem('loginResult')
+    //   const userResult = await getUserInfo(token)
+    //   // console.dir("66666" + this.user.username);
+    //   console.log('666666666' + userResult.data);
+    //   this.$store.commit("user/SET_USER", userResult.data)
+    // }
   },
   computed: {
     user: {
@@ -183,7 +185,7 @@ export default {
   methods: {
     async getContent() {
       getFilmList(this.pageNumber, this.pageSize).then(response => {
-        console.log(response.data.records);
+        // console.log(response.data.records);
         this.filmList = response.data.records;
         this.total = response.data.total;
         // const heard = localStorage.getItem("loginResult");
@@ -192,7 +194,7 @@ export default {
     },
     async getActivityRank() {
       getActivityRank(5).then(response => {
-        console.log(response.data);
+        // console.log(response.data);
         this.userActivityRank = response.data;
       });
     },
@@ -229,12 +231,15 @@ export default {
       // console.log("789456655" + token)
       await layout(token)
       localStorage.clear();
+      sessionStorage.clear();
       this.$store.commit("user/SET_USER", {})
       this.$store.commit("loginAndregister/SET_USERSHOW", false)
+      this.$router.push('/')
+      this.$message('退出成功');
     },
     goHome() {
       console.log('9999');
-      this.$router.push(`/`)
+      this.$router.push(home)
     }
   }
 };
