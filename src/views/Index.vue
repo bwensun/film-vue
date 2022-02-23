@@ -44,24 +44,26 @@
             </div>
             <div class="already-login" v-show="userShow">
               <div class="user">
-                <el-avatar
-                  shape="square"
-                  :size="36"
-                  v-bind:src="user.avatar || 'https://picture.bowensun.top/avatar%E5%AD%99%E5%8D%9A%E6%96%87.webp'"
-                ></el-avatar>
-                <el-dropdown trigger="click" @command="handleCommand">
-                  <div class="dropdown">
-                    <h3>{{ user.username }}</h3>
-                    <i class="el-icon-arrow-down el-icon--right"></i>
-                  </div>
-                  <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item command="usercenter">个人主页</el-dropdown-item>
-                    <el-dropdown-item command="2">我的订单</el-dropdown-item>
-                    <el-dropdown-item command="3">我的钱包</el-dropdown-item>
-                    <el-dropdown-item command="4">账户管理</el-dropdown-item>
-                    <el-dropdown-item command="layout" divided>退出</el-dropdown-item>
-                  </el-dropdown-menu>
-                </el-dropdown>
+                <el-row>
+                  <el-col :span="8" class="head-box">
+                    <el-avatar shape="square" :size="36" :fit="'cover'" v-bind:src="user.avatar"></el-avatar>
+                  </el-col>
+                  <el-col :span="16">
+                    <el-dropdown trigger="click" @command="handleCommand">
+                      <div class="dropdown">
+                        <h3>{{ user.username }}</h3>
+                        <i class="el-icon-arrow-down el-icon--right"></i>
+                      </div>
+                      <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item command="usercenter">个人主页</el-dropdown-item>
+                        <el-dropdown-item command="2">我的订单</el-dropdown-item>
+                        <el-dropdown-item command="3">我的钱包</el-dropdown-item>
+                        <el-dropdown-item command="4">账户管理</el-dropdown-item>
+                        <el-dropdown-item command="layout" divided>退出</el-dropdown-item>
+                      </el-dropdown-menu>
+                    </el-dropdown>
+                  </el-col>
+                </el-row>
               </div>
             </div>
           </el-col>
@@ -480,5 +482,8 @@ ul {
 }
 #main {
   overflow: hidden;
+}
+.head-box {
+  border: 1px solid black;
 }
 </style>

@@ -134,6 +134,15 @@ export default {
         if (valid) {
           console.log("5555555555" + this.$store);
           console.log("loginForm: %o", this.loginForm);
+          const loading = this.$loading({
+            lock: true,
+            text: 'Loading',
+            spinner: 'el-icon-loading',
+            background: 'rgba(0, 0, 0, 0.7)'
+          });
+          setTimeout(() => {
+            loading.close();
+          }, 2000);
           //如果点击了记住密码，将密码存储到session中
           if (this.checked) {
             console.log("记录密码");
