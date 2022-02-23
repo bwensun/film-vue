@@ -18,7 +18,7 @@ export function getFilmList(pageNo, pageSize) {
 //用户活跃度排行
 export function getActivityRank(count) {
   return request({
-    url: "/user/activity/rank?count=5",
+    url: `/rank/activity?count=${count}`,
     method: "get"
   });
 }
@@ -50,9 +50,9 @@ export function getCaptcha(captchaDTO) {
   });
 }
 //用户详情接口
-export function getUserInfo(token) {
+export function getUserInfo(id) {
   return request({
-    url: "/user/userInfo?token=" + token,
+    url: "/user/" + id,
     method: "get"
   });
 }

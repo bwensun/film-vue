@@ -46,7 +46,7 @@
   </el-dialog>
 </template>
 <script>
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 // import { getToken,setToken,removeToken} from '@/utils/auth'
 // if (getToken() && !isToken) {
 //   config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
@@ -104,20 +104,20 @@ export default {
     }
   }),
   created: function () {
-    this.getCookie();
+    // this.getCookie();
   },
   methods: {
     enterLogin() {
 
     },
-    getCookie() {
-      const username = Cookies.get("username");
-      const password = Cookies.get("password");
-      this.loginForm = {
-        username: username === undefined ? this.loginForm.username : username,
-        password: password === undefined ? this.loginForm.password : password,
-      };
-    },
+    // getCookie() {
+    //   const username = Cookies.get("username");
+    //   const password = Cookies.get("password");
+    //   this.loginForm = {
+    //     username: username === undefined ? this.loginForm.username : username,
+    //     password: password === undefined ? this.loginForm.password : password,
+    //   };
+    // },
     // setCookie(c_name, c_pwd, exdays) {
     //   var exdate = new Date(); //获取时间
     //   exdate.setTime(exdate.getTime() + 24 * 60 * 60 * 1000 * exdays); //保存的天数
@@ -132,8 +132,8 @@ export default {
     async handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          console.log("5555555555" + this.$store);
-          console.log("loginForm: %o", this.loginForm);
+          // console.log("5555555555" + this.$store);
+          // console.log("loginForm: %o", this.loginForm);
           const loading = this.$loading({
             lock: true,
             text: 'Loading',
@@ -146,13 +146,19 @@ export default {
           //如果点击了记住密码，将密码存储到session中
           if (this.checked) {
             console.log("记录密码");
-            Cookies.set("password", this.loginForm.password, { expires: 10 });
-            Cookies.set("username", this.loginForm.username, { expires: 10 });
-          } else {
-            console.log("清空密码");
-            Cookies.remove("username");
-            Cookies.remove("password");
+            window.sessionStorage.setItem("password", this.loginForm.password);
+            window.sessionStorage.setItem("username", this.loginForm.username);
           }
+
+
+          // if (this.checked) {
+          //   Cookies.set("password", this.loginForm.password, { expires: 10 });
+          //   Cookies.set("username", this.loginForm.username, { expires: 10 });
+          // } else {
+          //   console.log("清空密码");
+          //   Cookies.remove("username");
+          //   Cookies.remove("password");
+          // }
 
           this.$store
             .dispatch("user/login", this.loginForm)
@@ -164,7 +170,7 @@ export default {
               this.$message('登录成功');
             })
             .catch(a => {
-              console.log("登录出错!");
+              this.$message('密码或者用户名错误');
             });
         }
       });
